@@ -1,0 +1,61 @@
+.Login {
+  display: flex;
+}
+.rightcomponent {
+  padding: 0 auto;
+}
+
+.input {
+  height: 30px;
+  width: 270px;
+}
+.Signup {
+  display: flex;
+}
+.hero {
+  background-image: url(./assets/Hero.png);
+  max-width: 1350px;
+  min-height: 745px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.hero::before {
+  background-image: url(./assets/subHero.png);
+  min-width: 149px;
+  min-height: 167px;
+  top: 203px;
+  left: 1145px;
+}
+.landing_Other {
+  display: flex;
+}
+.TilesMainDiv {
+  display: flex;
+}
+.Tiles {
+  min-width: 258px;
+  min-height: 300px;
+}
+.TilesArrayNumber {
+  min-width: 303px;
+  min-height: 181px;
+}
+.TilesArrayNumberMainDiv {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.NewLetter {
+  background-image: url(./assets/NewsLetter.png);
+  min-width: 1087px;
+  min-height: 344px;
+  background-repeat: no-repeat;
+}
+
+ /* Home page */
+ .HomeHero{
+  background-image: url(./assets/NewsLetter.png);
+  min-width: 1087px;
+  min-height: 344px;
+  background-repeat: no-repeat;
+ }
