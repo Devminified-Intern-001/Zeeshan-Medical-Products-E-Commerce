@@ -28,6 +28,13 @@
 }
 .landing_Other {
   display: flex;
+align-items: center;
+
+}
+.landing_Other_reverse{
+  display: flex;
+flex-direction: row-reverse;
+align-items: center;
 }
 .TilesMainDiv {
   display: flex;
@@ -52,10 +59,70 @@
   background-repeat: no-repeat;
 }
 
- /* Home page */
- .HomeHero{
-  background-image: url(./assets/NewsLetter.png);
-  min-width: 1087px;
-  min-height: 344px;
+/* Home page */
+.HomeHero {
+  background-image: url(./assets/HeroHome.png);
+  min-width: 1440px;
+  min-height: 623px;
   background-repeat: no-repeat;
- }
+  margin-bottom: 100px;
+}
+.herochild{}
+.dicount {
+  background-image: url(./assets/discount.png);
+  min-width: 1440px;
+  min-height: 490px;
+  background-repeat: no-repeat;
+  margin-bottom: 100px;
+}
+
+.swiperslider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin: 0px 0px;
+}
+.smartChoice {
+  /* display: flex; */
+}
+.SmartChoiceIteam {
+  position: relative;
+}
+.Featured {
+  display: flex;
+  justify-content: center;
+}
+.relpostion{
+  position: absolute;
+  top:190px;
+  left:100px;
+  color: #ffff;
+}
+.Hygenic {
+  display: flex;
+  justify-content: center;
+}
+.sponser {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* footer */
+.footer_ul{
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  
+}
+.child1_ul{
+  list-style-type: none;
+  text-align: left;
+  }
+  .icons{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+  
+  }

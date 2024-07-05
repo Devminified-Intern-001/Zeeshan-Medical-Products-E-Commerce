@@ -1,11 +1,15 @@
-import '../../App.css';
 import Fb from '../../assets/Fb';
 import Twitter from '../../assets/Twitter';
 import Linkedin from '../../assets/Linkedin';
 import Instagram from '../../assets/Instagram';
-const Footer = () => {
+import '../../MyCSS.css'
+interface IProps{
+  className?: string;
+}
+const Footer = (props:IProps) => {
+  const{className}=props
   return (
-    <div>
+    <div className={className}>
       <ul className="footer_ul">
         <li>
           <h2>Logo</h2>
