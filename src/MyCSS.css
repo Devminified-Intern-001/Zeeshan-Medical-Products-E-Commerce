@@ -67,7 +67,7 @@ align-items: center;
   background-repeat: no-repeat;
   margin-bottom: 100px;
 }
-.herochild{}
+
 .dicount {
   background-image: url(./assets/discount.png);
   min-width: 1440px;
@@ -83,9 +83,7 @@ align-items: center;
   margin: 0 auto;
   margin: 0px 0px;
 }
-.smartChoice {
-  /* display: flex; */
-}
+
 .SmartChoiceIteam {
   position: relative;
 }
@@ -126,3 +124,83 @@ align-items: center;
     justify-content: space-between;
   
   }
+  /* product */
+.ProductHero{
+  background-image: url(./assets/Product.png);
+  min-width: 1440px;
+  min-height: 623px;
+  background-repeat: no-repeat;
+  margin-bottom: 100px;
+}
+/* pagination */
+.ReactPaginate{
+  display: flex;
+  width: 100%;
+  list-style-type: none;
+  cursor: pointer;
+}
+.ReactPaginate li{
+margin-right: 10px;  
+}
+.NutrationsIngredient{
+display: flex;
+margin-top: 90px;
+}
+.NutrationsFact{
+  width: 50%;
+}
+.Ingredients{
+  width: 50%;
+}
+.shopitem{
+  display: flex;
+}
+.ItemDetailsAddToCart{
+display: flex;
+}
+.ItemDetails{
+  width: 50%;
+}
+.AddToCart{
+  width: 50%;
+}
+.RcProgressReviews{
+  display: flex;
+  margin-top: 90px;
+}
+.productArray{
+    display: flex;
+}
+.ShoppingCart{
+  display: flex;
+  margin-top: 10px;
+  height: 70px;
+}
+.ShoppingCart{
+  display: flex;
+}
+.main{
+  display: flex;
+}
+ .leftside{
+  width: 50%;
+}
+.rightSide{
+width: 50%;
+}
+.ProfileSideBar{
+  display: flex;
+  flex-direction: column;
+}
+.ProfileSideBarAndProfilePhotoAndDetail{
+  display: flex;
+}
+.ProfileSideBar{
+  width: 30%;
+}
+.ProfilePhotoAndDetail{
+  width: 70%;
+}
+.ProfileNav{
+  display: flex;
+}

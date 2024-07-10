@@ -4,13 +4,16 @@ interface Iinput extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   rightLabel?: string;
   rightIcon?: ReactNode;
+  leftIcon?: ReactNode;
 }
+
 const Input = (props: Iinput) => {
-  const { className, label, rightLabel, rightIcon, ...rest } = props;
+  const { className, label, rightLabel, rightIcon, leftIcon, ...rest } = props;
   return (
     <div>
       <span> {label}</span>
-      <input  className={className} {...rest} />
+      {leftIcon}
+      <input className={className} {...rest} />
       {rightLabel}
       {rightIcon}
     </div>

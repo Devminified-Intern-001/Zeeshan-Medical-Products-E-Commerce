@@ -3,6 +3,7 @@ interface IServices {
   heading?: string;
   description?: string;
   className?: string;
+  
 }
 const Services = (props: IServices) => {
   const {text,heading,description,className} = props;

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
