@@ -4,10 +4,11 @@ import './App.css';
 // import Landing from './Page/Landing';
 // import Home from './Page/Home';
 // import Product from './Page/Product';
-import ShopItem from './Page/ShopItem';
+// import ShopItem from './Page/ShopItem';
 // import About from './Page/About';
-import Checkout from './Page/Checkout';
-import Profile from './Page/Profile';
+// import Checkout from './Page/Checkout';
+// import Profile from './Page/Profile';
+import Routes from './Routes'
 function App() {
   return (
     <>
@@ -16,11 +17,11 @@ function App() {
       {/* <Landing /> */}
       {/* <Home/> */}
       {/* <Product/> */}
-      <ShopItem/>
+      {/* <ShopItem/> */}
       {/* <About/> */}
-      <Checkout/>
-      <Profile/>
-      
+      {/* <Checkout/> */}
+      {/* <Profile/> */}
+      <Routes/>
     </>
   );
 }
