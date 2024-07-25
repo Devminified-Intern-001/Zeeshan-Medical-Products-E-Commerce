@@ -32,7 +32,7 @@ export const publicRoutes: RouteObject[] =[
             element: <Home/> ,
           },
           {
-            path: "/Landing",
+            path: "/",
             element: <Landing/> ,
           },
           {

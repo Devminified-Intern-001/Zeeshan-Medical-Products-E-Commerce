@@ -6,12 +6,14 @@ import Tiles from '../../Module/Landing/Tiles';
 import Services from '../../Module/Landing/Services';
 import Content from '../../Module/Landing/Content';
 import AboutContent from '../../assets/aboutContent.png';
-import AboutAnotherContent from '../../assets/anotherAboutContent.png'
-import AboutPrecedure from '../../assets/aboutPrecedure.png'
+import AboutAnotherContent from '../../assets/anotherAboutContent.png';
+import AboutPrecedure from '../../assets/aboutPrecedure.png';
 import PrecedureLi from '../../Module/About/PrecedureLIs';
 import Tick from '../../Component/Tick';
 import Footer from '../../Component/Footer';
+import { useNavigate } from 'react-router-dom';
 const About = () => {
+  const navigate = useNavigate();
   const TilesArrayNumber = [
     {
       number_text: '850',
@@ -35,7 +37,7 @@ const About = () => {
         logo={Logo}
         className=""
         login={true}
-        onProfile_SignIn={() => {}}
+        onProfile_SignIn={() => navigate('/Login')}
         onBuy_SignUp={() => {}}
       />
       <AboutUs
@@ -81,13 +83,33 @@ const About = () => {
         img={AboutPrecedure}
         className="landing_Other"
       >
-        <PrecedureLi label='Account Setting' text='Setup Your Account Details' iconNumber={<Tick/>} />
-        <PrecedureLi label='Browse Products' text='Choose Your Favourite Items' iconNumber={<Tick/>} />
-        <PrecedureLi label='Add Products to cart' text='Add Your Items to Cart' iconNumber={3} />
-        <PrecedureLi label='Make Payment' text='Use Debit or Credit Card' iconNumber={4} />
-        <PrecedureLi label='Get Delivered' text='Deliver within 24hrs' iconNumber={5} />
+        <PrecedureLi
+          label="Account Setting"
+          text="Setup Your Account Details"
+          iconNumber={<Tick />}
+        />
+        <PrecedureLi
+          label="Browse Products"
+          text="Choose Your Favourite Items"
+          iconNumber={<Tick />}
+        />
+        <PrecedureLi
+          label="Add Products to cart"
+          text="Add Your Items to Cart"
+          iconNumber={3}
+        />
+        <PrecedureLi
+          label="Make Payment"
+          text="Use Debit or Credit Card"
+          iconNumber={4}
+        />
+        <PrecedureLi
+          label="Get Delivered"
+          text="Deliver within 24hrs"
+          iconNumber={5}
+        />
       </Content>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

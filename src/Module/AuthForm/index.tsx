@@ -10,13 +10,12 @@ interface IAuthForm {
   submitButtonLabel: string;
   googleButtonLabel: string;
   className?: string;
-  onSubmit: () => void;
+  onSubmit: any;
   onGoogleClick: () => void;
-  closeModal: () => void;
-  value: boolean;
+  closeModal?: () => void;
+  value?: boolean;
 }
 const AuthForm = (props: IAuthForm) => {
-   
   const {
     heading,
     label,
@@ -28,7 +27,7 @@ const AuthForm = (props: IAuthForm) => {
     onSubmit,
     onGoogleClick,
   } = props;
-  console.log(onSubmit);
+ 
 
   return (
     <>
@@ -45,8 +44,6 @@ const AuthForm = (props: IAuthForm) => {
           {googleButtonLabel}
         </Button>
       </div>
-      
-      
     </>
   );
 };

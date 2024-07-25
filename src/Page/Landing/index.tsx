@@ -14,7 +14,9 @@ import Location from '../../assets/Location';
 import Arrow from '../../assets/Arrow';
 import NewLetter from '../../Module/Landing/News Letter';
 import Footer from '../../Component/Footer';
+import { useNavigate } from 'react-router-dom';
 const Landing = () => {
+  const navigate = useNavigate();
   const TilesArray = [
     {
       icon: <FormTiles />,
@@ -64,8 +66,8 @@ const Landing = () => {
         logo={Logo}
         className=""
         login={false}
-        onProfile_SignIn={() => {}}
-        onBuy_SignUp={() => {}}
+        onProfile_SignIn={() => navigate('/Login')}
+        onBuy_SignUp={() => navigate('/Signup')}
       />
       <Hero
         heading="We Always Provide Best Products"
