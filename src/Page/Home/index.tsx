@@ -192,10 +192,10 @@ const Home = () => {
       </div>
       <Heading headingName="Featured" text="see more" icon={<RightArrow />} />
       <div className="Featured">
-        {featurdData?.map((iteam) => {
+        {featurdData?.map((iteam,index) => {
           // const {name,price,image,quantity}=iteam
           return (
-            <div>
+            <div key={index}>
               <FeaturedData productName={iteam.name} image={iteam.image} />
             </div>
           );

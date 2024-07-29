@@ -204,3 +204,70 @@ width: 50%;
 .ProfileNav{
   display: flex;
 }
+
+
+.select-dropdown {
+  .rc-select-single {
+      .rc-select-selector {
+          border-color: #e8edff;
+          height: 42px;
+          border-radius: 4px;
+      }
+
+      .rc-select-selection-item {
+          color: #194bfb;
+          font-size: 14px;
+          font-weight: 500;
+      }
+
+      .rc-select-arrow,
+      .rc-select-selection-item,
+      .rc-select-selection-placeholder {
+          top: 50%;
+          transform: translate(0, -50%);
+          right: 10px;
+      }
+
+      .rc-select-selection-item,
+      .rc-select-selection-placeholder {
+          left: 10px;
+      }
+
+      &.rc-select-focused {
+          .rc-select-selector {
+              border-color: #e8edff !important;
+          }
+      }
+  }
+}
+
+.rc-select-dropdown {
+  border-color: #e8edff;
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: inherit;
+  min-width: inherit;
+
+  .rc-select-item {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 25px;
+      font-family: 'inter', sans-serif;
+
+      &.rc-select-item-option-active {
+          background: #e8edff;
+          color: #000;
+      }
+  }
+
+  .rc-select-item-option-state-icon {
+      display: none;
+  }
+}
+
+.option-lists {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 0;
+}

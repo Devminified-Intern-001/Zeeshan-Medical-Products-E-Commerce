@@ -9,7 +9,7 @@ import AboutContent from '../../assets/aboutContent.png';
 import AboutAnotherContent from '../../assets/anotherAboutContent.png';
 import AboutPrecedure from '../../assets/aboutPrecedure.png';
 import PrecedureLi from '../../Module/About/PrecedureLIs';
-import Tick from '../../Component/Tick';
+import Tick from '../../assets/Tick';
 import Footer from '../../Component/Footer';
 import { useNavigate } from 'react-router-dom';
 const About = () => {

@@ -85,7 +85,7 @@ const Swipe = (props: ISwiper) => {
       <Swiper {...swiperProps}>
         {slides &&
           slides.map((slide, index) => {
-            console.log(slide);
+            // console.log(slide);
 
             return (
               <SwiperSlide
