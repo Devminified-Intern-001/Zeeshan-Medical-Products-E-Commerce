@@ -39,8 +39,14 @@ interface IUserProfileDetailsResponse {
   error: string | null;
 }
 interface IUserProfileDetailsPostResponse {
-  done:boolean;
-  message:string;
-  success:boolean;
+  done: boolean;
+  message: string;
+  success: boolean;
   error: string | null;
 }
+interface IUserProfileImageResponse {
+  done: boolean;
+  message: string;
+  error: string | null;
+}
+

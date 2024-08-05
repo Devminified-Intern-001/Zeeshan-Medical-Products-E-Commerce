@@ -42,12 +42,11 @@ export const userProfilePostDetails = async (data: {
         return res
     })
 }
-export const userProfilemage = async (data: {
-    image?: string
-}): Promise<IUserProfileDetailsPostResponse> => {
+export const userProfilemage = async (
+    updateImage?: string): Promise<IUserProfileImageResponse> => {
     return await request('/User', {
-        data,
-        method: 'PUT',
+        updateImage,
+        method: 'POST',
     }).then((res: any) => {
         if (!res || !res.success) {
             throw new Error(res?.data?.message || '')

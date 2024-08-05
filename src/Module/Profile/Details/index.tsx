@@ -38,6 +38,7 @@ const Detail = (props: IDetailProps) => {
           value={userName}
           name="userName"
           onChange={handleChange}
+          readOnly
         />
       </div>
       Mobile{' '}
@@ -48,14 +49,28 @@ const Detail = (props: IDetailProps) => {
         onChange={handleChange}
       />
       Email ID{' '}
-      <Input type="email" name="email" value={email} onChange={handleChange} />
+      <Input
+        type="email"
+        name="email"
+        value={email}
+        onChange={handleChange}
+        readOnly
+      />
       Date of Birth <br />
       <DatePicker
         selected={dateOfBirth}
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd"
-      /><br/>
-      NIC <Input type="text" placeholder='xxxx-xxxxxx-xx' name="nic" value={nic} onChange={handleChange} />
+      />
+      <br />
+      NIC{' '}
+      <Input
+        type="text"
+        placeholder="xxxx-xxxxxx-xx"
+        name="nic"
+        value={nic}
+        onChange={handleChange}
+      />
       Gender
       <Input
         name="gender"
@@ -74,7 +89,12 @@ const Detail = (props: IDetailProps) => {
         value="Female"
       />
       Password
-      <Input type="password" name='password' value={password} onChange={handleChange} />
+      <Input
+        type="password"
+        name="password"
+        value={password}
+        onChange={handleChange}
+      />
     </div>
   );
 };

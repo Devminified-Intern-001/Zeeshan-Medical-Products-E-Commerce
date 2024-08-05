@@ -11,7 +11,7 @@ import Footer from '../../Component/Footer';
 import { useEffect, useRef, useState } from 'react';
 // import axios from 'axios';
 // import { Cookies } from 'react-cookie';
-import { userProfileGetDetails,userProfilePostDetails } from '../../api/auth/index';
+import { userProfileGetDetails,userProfilePostDetails,userProfilemage } from '../../api/auth/index';
 import moment from 'moment';
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -47,7 +47,7 @@ const Profile = () => {
       dateOfBirth: date,
     }));
   };
-  const [updateImage, setUpadteImage] = useState(null);
+  const [updateImage, setUpadteImage] = useState('');
   const imageref = useRef(null);
   const handleimage = (e: any) => {
     setUpadteImage(e.target.files[0]);
@@ -90,8 +90,9 @@ const Profile = () => {
   for (const element of Object.keys(testObj) as string[]) {
     newobj[element] = testObj[element] || undefined
   }
+    const responseImage=userProfilemage(updateImage)
     const response =await userProfilePostDetails(newobj)
-    
+    console.log("responseImage::",responseImage)
     console.log("response",response);
     if(response.done===true){
     getProfile();
