@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the type for the initial state
@@ -28,6 +29,8 @@ const authSlice = createSlice({
   reducers: {
     setCredentials(state, action: PayloadAction<CredentialsPayload>) {
       console.log(action.payload);
+      console.log(action.payload.userData);
+      
       const { userData, accessToken, refreshToken } = action.payload;
       state.user = userData;
       state.accessToken = accessToken;
@@ -42,7 +45,7 @@ export default authSlice.reducer;
 
 // Define the types for the selector functions
 import { RootState } from '../store/store'; // Adjust the import according to your store setup
-import { ReactNode } from 'react';
+
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken;

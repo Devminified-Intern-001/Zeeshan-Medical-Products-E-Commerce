@@ -7,11 +7,11 @@ import { useState } from 'react';
 import Button from '../../Component/Button';
 import RcModal from '../../Component/Modal';
 import { useNavigate } from 'react-router-dom';
-import {signup } from '../../api/auth/index'
-import axios from 'axios';
+import {signup, ModalForm } from '../../api/auth/index'
+
 
 const Signup = () => {
-const BaseUrl= 'https://medical-e-commerce-backend.vercel.app'
+
   const navigate = useNavigate();
   const [signupInfo, setSignupInfo] = useState({
     userName: '',
@@ -70,9 +70,12 @@ const BaseUrl= 'https://medical-e-commerce-backend.vercel.app'
   const [condition, setCondition] = useState(false);
   const handleclick = async (event: any) => {
     event.preventDefault();
-    const response = await axios.post(`${BaseUrl}/form/submitForm`, modalData);
-    console.log(response);
-    setCondition((prev) => !prev);
+    // const response = await axios.post(`${BaseUrl}/form/submitForm`, modalData);
+    const response = await ModalForm (modalData);
+    console.log("response : ",response);
+    if(response.done===true){
+      setCondition((prev) => !prev);
+    }
   };
   function openModal() {
     setIsOpen(true);
@@ -217,8 +220,8 @@ const BaseUrl= 'https://medical-e-commerce-backend.vercel.app'
                 name="gender"
                 rightLabel="female"
                 type="radio"
-                checked={modalData.gender === 'Female'}
                 onChange={handleChangeModal}
+                checked={modalData.gender === 'Female'}
                 value="Female"
               />
               <Input

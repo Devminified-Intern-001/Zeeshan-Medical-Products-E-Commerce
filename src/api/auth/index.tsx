@@ -16,19 +16,45 @@ import request from '../../utils/request'
 //     )
 // }
 
-// export const getChatListing = async (params: {
-//     telegram_id: number
-// }): Promise<IChatListRresponse> => {
-//     return request(`/kol/chat/listing?${stringify(params)}`).then(
-//         (res: any) => {
-//             if (!res || !res.success) {
-//                 throw new Error(res?.data?.message || '')
-//             }
-//             return res
-//         }
-//     )
-// }
-
+export const userProfileGetDetails = async (): Promise<IUserProfileDetailsResponse> => {
+    return request(`/User`).then(
+        (res: any) => {
+            if (!res || !res.success) {
+                throw new Error(res?.data?.message || '')
+            }
+            return res
+        }
+    )
+}
+export const userProfilePostDetails = async (data: {
+    gender?: string
+    dateOfBirth?: Date
+    nic?: string
+    mobile?: string
+}): Promise<IUserProfileDetailsPostResponse> => {
+    return await request('/User', {
+        data,
+        method: 'PUT',
+    }).then((res: any) => {
+        if (!res || !res.success) {
+            throw new Error(res?.data?.message || '')
+        }
+        return res
+    })
+}
+export const userProfilemage = async (data: {
+    image?: string
+}): Promise<IUserProfileDetailsPostResponse> => {
+    return await request('/User', {
+        data,
+        method: 'PUT',
+    }).then((res: any) => {
+        if (!res || !res.success) {
+            throw new Error(res?.data?.message || '')
+        }
+        return res
+    })
+}
 export const signup = async (data: {
     userName: string
     email: string
@@ -81,3 +107,4 @@ export const ModalForm = async (data: {
         return res
     })
 }
+

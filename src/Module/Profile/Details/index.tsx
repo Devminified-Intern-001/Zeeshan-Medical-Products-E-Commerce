@@ -1,43 +1,82 @@
-import Button from "../../../Component/Button";
-import Upload from "../../../assets/Upload";
-import Delete from "../../../assets/Delete";
-import Input from "../../../Component/Input";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Input from '../../../Component/Input';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 interface IDetailProps {
-    className?: string;
-    onUpdate?: () => void;
-    onDelete?: () => void;
-    userName?:string;
-    mobile?:number;
-    email?:string;
-    dateOfBirth?:string;
-    nic?:string;
-    gender?:boolean;
-    password?:string;
-  }
-
-const Detail = (props:IDetailProps) => {
-const {onDelete,onUpdate,userName,mobile,email,dateOfBirth,nic,password}=props
-  return (
-    <div>
-      Your Profile 
-      <Button onClick={onUpdate} leftIcon={<Upload/>} >Update</Button>
-      <Button onClick={onDelete} leftIcon={<Delete/>} >Delete</Button>
-      <div>User Name <Input type="text" value={userName} /></div>
-      Mobile <Input type="number" value={mobile} />
-      Email ID <Input type="email" value={email} />
-      Date of Birth <Input type="date" value={dateOfBirth} />
-      NIC <Input type="text" value={nic} />
-      Gender <Input
-                name="gender"
-                rightLabel="male"
-                type="radio"
-                
-              />
-              <Input name="gender" rightLabel="female" type="radio" />
-      Password <Input type="password" value={password} />
-    </div>
-  )
+  className?: string;
+  userName?: string;
+  mobile?: string;
+  email?: string;
+  dateOfBirth?: Date | null;
+  nic?: string;
+  gender?: string;
+  password?: string;
+  handleDateChange?: any;
+  handleChange?: any;
 }
 
-export default Detail
- 
+const Detail = (props: IDetailProps) => {
+  const {
+    className,
+    userName,
+    mobile,
+    email,
+    dateOfBirth,
+    nic,
+    password,
+    handleDateChange,
+    handleChange,
+    gender,
+  } = props;
+  return (
+    <div className={className}>
+      Your Profile
+      <div>
+        User Name{' '}
+        <Input
+          type="text"
+          value={userName}
+          name="userName"
+          onChange={handleChange}
+        />
+      </div>
+      Mobile{' '}
+      <Input
+        type="number"
+        name="mobile"
+        value={mobile}
+        onChange={handleChange}
+      />
+      Email ID{' '}
+      <Input type="email" name="email" value={email} onChange={handleChange} />
+      Date of Birth <br />
+      <DatePicker
+        selected={dateOfBirth}
+        onChange={handleDateChange}
+        dateFormat="yyyy-MM-dd"
+      /><br/>
+      NIC <Input type="text" placeholder='xxxx-xxxxxx-xx' name="nic" value={nic} onChange={handleChange} />
+      Gender
+      <Input
+        name="gender"
+        rightLabel="male"
+        type="radio"
+        onChange={handleChange}
+        checked={gender === 'Male'}
+        value="Male"
+      />
+      <Input
+        name="gender"
+        rightLabel="female"
+        type="radio"
+        onChange={handleChange}
+        checked={gender === 'Female'}
+        value="Female"
+      />
+      Password
+      <Input type="password" name='password' value={password} onChange={handleChange} />
+    </div>
+  );
+};
+
+export default Detail;

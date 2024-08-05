@@ -128,9 +128,9 @@ const Landing = () => {
         description="The point of using Lorem Ipsum is that it has a more-or-less normal distribution."
       />
       <div className="TilesArrayNumberMainDiv">
-        {TilesArrayNumber?.map((iteam) => {
+        {TilesArrayNumber?.map((iteam,index) => {
           return (
-            <div>
+            <div key={index}>
               <Tiles
                 number_text={iteam.number_text}
                 heading={iteam.heading}

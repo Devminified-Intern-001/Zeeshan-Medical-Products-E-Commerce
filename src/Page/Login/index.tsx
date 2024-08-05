@@ -3,44 +3,61 @@ import AuthForm from '../../Module/AuthForm';
 import Input from '../../Component/Input';
 import Image from '../../assets/Login.png';
 import '../../MyCSS.css';
-
 import { useState } from 'react';
-
+// import { useGlobalState } from '../../hooks/useGlobalState';
+import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import {login } from '../../api/auth/index'
+import { login } from '../../api/auth/index';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../redux-slices/global.slice';
 
 const Login = () => {
-
+  const cookies = new Cookies();
+  const dispatch = useDispatch();
+  // const { userdetails, accessToken, refreshToken } = useGlobalState();
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     userName: '',
     password: '',
   });
 
-  const handlechange = (event: any) => {
+  const handleChange = (event: any) => {
     const { name, value } = event.target;
     setLoginInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
   const handleSubmit = async (event: any) => {
-   
-      if (!loginInfo.userName || !loginInfo.password) {
-        alert('Please fill the credentials');
-        return null;
-      }
-      event.preventDefault();
-      // const response = await axios.post(`${BaseUrl}/logIn`, loginInfo);
-      const response = await  login (loginInfo);
-      console.log('respose : ', response); 
-      console.log(' response.access : ', response.access); 
-      // navigate('/Home');
-      if (response.done === true) {
-        console.log(1);
-          navigate('/Home');
-      }
-   
-  };
+    event?.preventDefault();
 
+    if (!loginInfo.userName || !loginInfo.password) {
+      alert('Please fill the credentials');
+      return;
+    }
+
+    try {
+      const response = await login(loginInfo);
+      console.log('response', response.userData);
+      if (response.done) {
+        const newData = {
+          userData: response.userData,
+          accessToken: response.access,
+          refreshToken: response.refresh,
+        };
+
+        dispatch(setCredentials(newData));
+
+        cookies.set('accessToken', response.access);
+        cookies.set('refreshToken', response.refresh);
+
+        navigate('/Home');
+      } else {
+        alert('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login. Please try again later.');
+    }
+  };
 
   return (
     <div className="Login">
@@ -51,12 +68,12 @@ const Login = () => {
       />
       <div>
         <AuthForm
-          heading="Welocme to Start."
+          heading="Welcome to Start."
           label="New Here?"
           labelWithAnchor="Create an Account"
           submitButtonLabel="Sign in"
           googleButtonLabel="Sign in with google"
-          onSubmit={(event: any) => handleSubmit(event)}
+          onSubmit={handleSubmit}
           onGoogleClick={() => {}}
         >
           <Input
@@ -66,16 +83,16 @@ const Login = () => {
             type="text"
             name="userName"
             value={loginInfo.userName}
-            onChange={handlechange}
+            onChange={handleChange}
           />
           <Input
-            label="password"
+            label="Password"
             className="input"
             placeholder="Enter Password"
             type="password"
             name="password"
             value={loginInfo.password}
-            onChange={handlechange}
+            onChange={handleChange}
           />
         </AuthForm>
         <a href="">Terms and Conditions</a>

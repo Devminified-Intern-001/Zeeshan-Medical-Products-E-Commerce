@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '../../../Component/Button';
 
 interface IProfileNavProps {
@@ -6,7 +7,7 @@ interface IProfileNavProps {
   parentRoutes?: string;
   currentRoute?: string;
   onCancel?: () => void;
-  onSave?: () => void;
+  onSave?: any
 }
 
 const ProfileNav = (props: IProfileNavProps) => {

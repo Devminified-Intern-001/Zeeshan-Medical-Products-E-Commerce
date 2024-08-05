@@ -1,6 +1,7 @@
 import Button from '../Button';
 import Profile from '../../assets/ProfileIcon';
 import Buy from '../../assets/BuyIcon';
+import { Link } from 'react-router-dom';
 interface INavbar {
   className?: string;
   logo: string;
@@ -16,10 +17,14 @@ const Navbar = (props: INavbar) => {
       {login ? (
         <>
           <ul>
-            <li>Home</li>
-            <li>Products</li>
-            <li>About us</li>
-            <li>Contact us</li>
+            <li>
+              <Link to={'/Home'}>Home</Link>
+            </li>
+            <li>
+              <Link to={'/Product'}>Products</Link>
+            </li>
+            <li><Link to={'/About'} >About us</Link> </li>
+            <li><Link to={'/profile'} >Contact us</Link></li>
           </ul>
           {<Profile />}
           {<Buy />}
