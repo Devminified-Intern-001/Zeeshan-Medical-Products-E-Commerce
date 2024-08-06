@@ -43,9 +43,9 @@ export const userProfilePostDetails = async (data: {
     })
 }
 export const userProfilemage = async (
-    updateImage?: string): Promise<IUserProfileImageResponse> => {
+    image?: string): Promise<IUserProfileImageResponse> => {
     return await request('/User', {
-        updateImage,
+        data: image,
         method: 'POST',
     }).then((res: any) => {
         if (!res || !res.success) {
@@ -106,4 +106,23 @@ export const ModalForm = async (data: {
         return res
     })
 }
-
+export const allProducts = async (data: {
+    searchText?: string,
+    onSales?: boolean,
+    type?: string,
+    newArrivals?: boolean,
+    minPrice?: number,
+    maxPrice?: number,
+    dietNeeds?: string[],
+    allergenFilters?: string[],
+}): Promise<allProductResponse> => {
+    return await request('/product/get', {
+        data,
+        method: 'POST',
+    }).then((res: any) => {
+        if (!res || !res.success) {
+            throw new Error(res?.data?.message || '')
+        }
+        return res
+    })
+}

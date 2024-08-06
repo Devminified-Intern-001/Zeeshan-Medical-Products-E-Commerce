@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Navbar from '../../Component/Navbar';
 import Logo from '../../assets/Logo.png';
 import Hero from '../../Module/Home/Hero';
@@ -15,10 +16,10 @@ import Pizza from '../../assets/Pizza.png';
 import Egg from '../../assets/Egg.png';
 import Chicken from '../../assets/chicken.png';
 // import SmartChoice from '../../Module/Home/SmartChoice';
-import peanutJar from '../../assets/peanutJar.png';
-import bread from '../../assets/bread.png';
-import popconPack from '../../assets/popconPack.png';
-import cucumberJar from '../../assets/cucumberJar.png';
+// import peanutJar from '../../assets/peanutJar.png';
+// import bread from '../../assets/bread.png';
+// import popconPack from '../../assets/popconPack.png';
+// import cucumberJar from '../../assets/cucumberJar.png';
 import FeaturedData from '../../Module/Home/FeaturedData';
 import RightArrow from '../../assets/rightArrow';
 import Discount from '../../Module/Home/Discount';
@@ -34,7 +35,52 @@ import Tomato from '../../assets/tomato.png';
 import Broccoli from '../../assets/broccoli.png';
 import Footer from '../../Component/Footer';
 import Heading from '../../Component/Heading';
+import { allProducts } from '../../api/auth/index';
+import { useEffect, useState } from 'react';
 const Home = () => {
+  // const [products, setProducts] = useState({
+  //   searchText: '',
+  //   onSales: false,
+  //   type: '',
+  //   newArrivals: false,
+  //   minPrice: null,
+  //   maxPrice: null,
+  //   dietNeeds: [],
+  //   allergenFilters: [],
+  // });
+  const [featurdData, setFeaturedData] = useState([]);
+  const getAllproducts = async () => {
+    const passObject = {
+      searchText: '',
+      onSales: true,
+      type: '',
+      newArrivals: false,
+      minPrice: 0,
+      maxPrice: 150,
+      dietNeeds: [],
+      allergenFilters: [],
+    };
+    const testObj = { ...passObject } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      console.log(testObj[element], newobj[element]);
+
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
+    console.log('newobj', newobj);
+    const responseAllProducts = await allProducts(newobj);
+    console.log('responseAllProducts', responseAllProducts);
+    console.log('responseAllProducts', responseAllProducts.message);
+    if (responseAllProducts.done === true) {
+      setFeaturedData(responseAllProducts.message);
+    }
+  };
+  useEffect(() => {
+    getAllproducts();
+  }, []);
+  // console.log('featurdData', featurdData);
+
   const HeroSlider = [
     {
       image: FruitIcon,
@@ -101,32 +147,32 @@ const Home = () => {
       description: 'product description is here',
     },
   ];
-  const featurdData = [
-    {
-      name: 'Product Name',
-      image: peanutJar,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: bread,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: popconPack,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: cucumberJar,
-      price: 50,
-      quantity: 1,
-    },
-  ];
+  // const featurdData = [
+  //   {
+  //     name: 'Product Name',
+  //     image: peanutJar,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: bread,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: popconPack,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: cucumberJar,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  // ];
   const hygenicFoodArray = [
     {
       name: 'Product Name',
@@ -192,11 +238,15 @@ const Home = () => {
       </div>
       <Heading headingName="Featured" text="see more" icon={<RightArrow />} />
       <div className="Featured">
-        {featurdData?.map((iteam,index) => {
+        {featurdData?.map((iteam: any, index) => {
           // const {name,price,image,quantity}=iteam
           return (
             <div key={index}>
-              <FeaturedData productName={iteam.name} image={iteam.image} />
+              <FeaturedData
+                productName={iteam.title}
+                image={iteam.defaultImage}
+                price={iteam.price}
+              />
             </div>
           );
         })}
@@ -227,7 +277,7 @@ const Home = () => {
         buttonlabel="See more"
         buttonIcon={<RightArrow />}
       />
-     <Heading
+      <Heading
         headingName="Hygenic Food"
         text="see more"
         icon={<RightArrow />}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { removeLocalStorage } from './index'
 import axios, { AxiosRequestConfig } from 'axios';
@@ -19,9 +20,9 @@ axios.interceptors.response.use(
     const { status, config } = error.response || {};
     console.log('error.response:::::', error.response);
     const { url } = config || {};
-    console.log('status', status);
-    console.log('config', config);
-    console.log('url:::::::', url);
+    // console.log('status', status);
+    // console.log('config', config);
+    // console.log('url:::::::', url);
 
     if (status === 401) {
       console.log(
@@ -35,7 +36,7 @@ axios.interceptors.response.use(
         console.log('Refresh token found. Attempting to refresh tokens...');
 
         const response = await axios.post(
-          'https://medical-e-commerce-backend.vercel.app/refreshToken',
+          `${baseURL}/refreshToken`,
           { token: refreshToken },
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
@@ -146,9 +147,9 @@ const apiRequest = (
   console.log('customError::::', customError);
 
   if (includeAuthHeader && (cookies.get('accessToken') || token)) {
-    console.log('includeAuthHeader', includeAuthHeader);
-    console.log("cookies.get('accessToken')", cookies.get('accessToken'));
-    console.log('token', token);
+    // console.log('includeAuthHeader', includeAuthHeader);
+    // console.log("cookies.get('accessToken')", cookies.get('accessToken'));
+    // console.log('token', token);
 
     headers['Authorization'] = token
       ? `Bearer ${token}`
@@ -184,8 +185,8 @@ const request = (
   handleError = true,
   token = cookies.get('accessToken')
 ) => {
-  console.log('request token:::::::::', token);
-  console.log('api call');
+  // console.log('request token:::::::::', token);
+  // console.log('api call');
 
   return apiRequest(url, options, _, includeAuthHeader, handleError, {}, token);
 };

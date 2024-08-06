@@ -1,35 +1,41 @@
 import { useState } from 'react';
 import Button from '../../../Component/Button';
-interface Iprops{
+import { API_URL } from '../../../config';
+interface Iprops {
   className?: string;
   productName?: string;
   image?: string;
+  price?: number;
 }
 const FeaturedData = (props: Iprops) => {
-  const { productName, image } = props;
-  const [counter, setCounter] = useState(1);
-  const [pric, setrpic] = useState(50);
-  const increment = () => {
-    setrpic(pric + 50);
-    setCounter(counter + 1);
-  };
-  const decrement = () => {
-    if (counter > 1) {
-      setrpic(pric - 50);
-      setCounter(counter - 1);
-    }
-  };
+  const { productName, image, price } = props;
+  console.log('image', image);
+
+  // const [counter, setCounter] = useState(1);
+  // const [pric, setrpic] = useState(50);
+  // const increment = () => {
+  //   setrpic(price + 50);
+  //   setCounter(counter + 1);
+  // };
+  // const decrement = () => {
+  //   if (counter > 1) {
+  //     setrpic(price - 50);
+  //     setCounter(counter - 1);
+  //   }
+  // };
 
   return (
     <div className="featured">
       <div>
-        <img src={image} alt="img not found" />
+        <img src={`${API_URL}/img/${image}`} alt="img not found" />
         <p>{productName}</p>
-        <p>{pric}$</p>
-        <Button onClick={decrement}>-</Button>
-        {counter}
-        <Button onClick={increment}>+</Button>
-        <div><Button>Add to cart</Button></div>
+        <p>{price}$</p>
+        <Button>-</Button>
+        {}
+        <Button>+</Button>
+        <div>
+          <Button>Add to cart</Button>
+        </div>
       </div>
     </div>
   );

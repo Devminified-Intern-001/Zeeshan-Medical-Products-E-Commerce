@@ -50,3 +50,18 @@ interface IUserProfileImageResponse {
   error: string | null;
 }
 
+interface allProductMessage {
+  title: string;
+  shortTitle: string;
+  description: string;
+  price: number;
+  unit: string;
+  quantity: number;
+  defaultImage: string;
+}
+[];
+interface allProductResponse {
+  done: boolean;
+  message: allProductMessage;
+  error: string | null;
+}
