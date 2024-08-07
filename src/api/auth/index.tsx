@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import request from '../../utils/request'
 // import { stringify } from 'qs'
-
 // export const setCredentials = async (params: {
 //     telegram_id: number
 //     kol_id: number
@@ -116,7 +115,27 @@ export const allProducts = async (data: {
     dietNeeds?: string[],
     allergenFilters?: string[],
 }): Promise<allProductResponse> => {
-    return await request('/product/get', {
+    return await request('/product/get?maxNumber=10', {
+        data,
+        method: 'POST',
+    }).then((res: any) => {
+        if (!res || !res.success) {
+            throw new Error(res?.data?.message || '')
+        }
+        return res
+    })
+}
+export const applyFilters = async (data: {
+    searchText?: string,
+    onSales?: boolean,
+    type?: string,
+    newArrivals?: boolean,
+    minPrice?: number,
+    maxPrice?: number,
+    dietNeeds?: string[],
+    allergenFilters?: string[],
+}): Promise<allProductResponse> => {
+    return await request('/product/get?maxNumber=10', {
         data,
         method: 'POST',
     }).then((res: any) => {

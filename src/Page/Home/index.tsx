@@ -29,26 +29,20 @@ import Cococola from '../../assets/Cocacola.png';
 import PizzaHurt from '../../assets/PizzaHurt.png';
 import Chili from '../../assets/chiliBeans.png';
 import Nestle from '../../assets/nestle.png';
-import Carret from '../../assets/carret.png';
-import Cabbage from '../../assets/cabbage.png';
-import Tomato from '../../assets/tomato.png';
-import Broccoli from '../../assets/broccoli.png';
+// import Carret from '../../assets/carret.png';
+// import Cabbage from '../../assets/cabbage.png';
+// import Tomato from '../../assets/tomato.png';
+// import Broccoli from '../../assets/broccoli.png';
 import Footer from '../../Component/Footer';
 import Heading from '../../Component/Heading';
 import { allProducts } from '../../api/auth/index';
 import { useEffect, useState } from 'react';
 const Home = () => {
-  // const [products, setProducts] = useState({
-  //   searchText: '',
-  //   onSales: false,
-  //   type: '',
-  //   newArrivals: false,
-  //   minPrice: null,
-  //   maxPrice: null,
-  //   dietNeeds: [],
-  //   allergenFilters: [],
-  // });
-  const [featurdData, setFeaturedData] = useState([]);
+  const [search, setSearch] = useState('');
+  const handleSearch = (event: any) => {
+    setSearch(event.target.value);
+  };
+  const [featurdData, setFeaturedData] = useState<any[]>([]);
   const getAllproducts = async () => {
     const passObject = {
       searchText: '',
@@ -173,32 +167,32 @@ const Home = () => {
   //     quantity: 1,
   //   },
   // ];
-  const hygenicFoodArray = [
-    {
-      name: 'Product Name',
-      image: Carret,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: Cabbage,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: Tomato,
-      price: 50,
-      quantity: 1,
-    },
-    {
-      name: 'Product Name',
-      image: Broccoli,
-      price: 50,
-      quantity: 1,
-    },
-  ];
+  // const hygenicFoodArray = [
+  //   {
+  //     name: 'Product Name',
+  //     image: Carret,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: Cabbage,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: Tomato,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     name: 'Product Name',
+  //     image: Broccoli,
+  //     price: 50,
+  //     quantity: 1,
+  //   },
+  // ];
 
   return (
     <div>
@@ -214,6 +208,9 @@ const Home = () => {
         inputPlaceholder="What are you looking for..."
         buttonIcon={<Search />}
         className="HomeHero"
+        onSearch={() => {}}
+        value={search}
+        onChange={handleSearch}
       />
       <Swipe slides={HeroSlider} slidesPerView={6} />
       <Heading headingName="Smart Choices" />
@@ -239,13 +236,13 @@ const Home = () => {
       <Heading headingName="Featured" text="see more" icon={<RightArrow />} />
       <div className="Featured">
         {featurdData?.map((iteam: any, index) => {
-          // const {name,price,image,quantity}=iteam
           return (
             <div key={index}>
               <FeaturedData
                 productName={iteam.title}
                 image={iteam.defaultImage}
                 price={iteam.price}
+                quantity={iteam.quantity}
               />
             </div>
           );
@@ -257,14 +254,14 @@ const Home = () => {
         icon={<RightArrow />}
       />
       <div className="Hygenic">
-        {hygenicFoodArray?.map((iteam) => {
-          // const {name,price,image,quantity}=iteam
+        {featurdData?.map((iteam: any, index) => {
           return (
-            <div>
+            <div key={index}>
               <FeaturedData
-                className="FeaturedData"
-                productName={iteam.name}
-                image={iteam.image}
+                productName={iteam.title}
+                image={iteam.defaultImage}
+                price={iteam.price}
+                quantity={iteam.quantity}
               />
             </div>
           );
@@ -283,14 +280,14 @@ const Home = () => {
         icon={<RightArrow />}
       />
       <div className="Featured">
-        {hygenicFoodArray?.map((iteam) => {
-          // const {name,price,image,quantity}=iteam
+        {featurdData?.map((iteam: any, index) => {
           return (
-            <div>
+            <div key={index}>
               <FeaturedData
-                className="FeaturedData"
-                productName={iteam.name}
-                image={iteam.image}
+                productName={iteam.title}
+                image={iteam.defaultImage}
+                price={iteam.price}
+                quantity={iteam.quantity}
               />
             </div>
           );

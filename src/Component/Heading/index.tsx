@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 interface IHeading {
   className?: string;
@@ -12,9 +13,7 @@ const Heading = (props: IHeading) => {
   return (
     <div className={className}>
       <h2>{headingName}</h2>
-      <div>
-        {text} {icon}
-      </div>
+      <Link to={'/Product'}>{text} {icon}</Link>
     </div>
   );
 };

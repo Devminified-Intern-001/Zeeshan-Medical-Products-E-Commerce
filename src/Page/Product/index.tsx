@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Navbar from '../../Component/Navbar';
 import Logo from '../../assets/Logo.png';
 import Hero from '../../Module/Home/Hero';
@@ -14,16 +15,29 @@ import VegetableIcon from '../../assets/fruits-and-vegetables.png';
 import Sidebar from '../../Component/Sidebar';
 import Input from '../../Component/Input';
 import PriceRangeSlider from '../../Component/RangeSlider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RcAccordion from '../../Component/Accordion';
 import Heading from '../../Component/Heading';
 import Pagination from '../../Component/Pagination';
-import peanutJar from '../../assets/peanutJar.png';
-import bread from '../../assets/bread.png';
-import popconPack from '../../assets/popconPack.png';
-import cucumberJar from '../../assets/cucumberJar.png';
 import Footer from '../../Component/Footer';
+import { allProducts } from '../../api/auth';
+import Toggle from 'react-styled-toggle';
+import {applyFilters} from '../../api/auth'
 const Product = () => {
+  const dietNeedsArray = [
+    'Sugar Free',
+    'Low Fat',
+    'Fat-Free',
+    'Vegan',
+    'Saturated Fat-Free',
+  ];
+  const alllergenceArray = [
+    'Sugar Free',
+    'Low Fat',
+    'Fat-Free',
+    'Vegan',
+    'Saturated Fat-Free',
+  ];
   const HeroSlider = [
     {
       image: FruitIcon,
@@ -58,46 +72,103 @@ const Product = () => {
       label: 'Household',
     },
   ];
-  const Vegatables = [
-    {
-      productName: 'Product Name',
-      productImage: peanutJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: bread,
-    },
-    {
-      productName: 'Product Name',
-      productImage: popconPack,
-    },
-    {
-      productName: 'Product Name',
-      productImage: cucumberJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: peanutJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: bread,
-    },
-    {
-      productName: 'Product Name',
-      productImage: popconPack,
-    },
-    {
-      productName: 'Product Name',
-      productImage: cucumberJar,
-    },
-  ];
-  const [value, setValue] = useState<number[]>();
-
-  const handleChange = (newValue: number) => {
-    setValue([newValue]);
+  const handleClear = () => {
+    setFilter({
+      searchText: '',
+      onSales: true,
+      type: '',
+      newArrivals: false,
+      minPrice: 0,
+      maxPrice: 150,
+      dietNeeds: [],
+      allergenFilters: [],
+    });
   };
+  const [value, setValue] = useState();
+  const handleChange = (newValue: any) => {
+    const [minValue,maxValue]=newValue
 
+    setValue(newValue);
+  };
+  const [filter, setFilter] = useState({
+    searchText: '',
+    onSales: true,
+    type: '',
+    newArrivals: false,
+    minPrice: 0,
+    maxPrice: 150,
+    dietNeeds: [],
+    allergenFilters: [],
+  });
+  const onChangeFilter = (event: any) => {
+    const { name, checked } = event.target;
+    console.log("checked",checked);
+     setFilter((prevData) => ({
+      ...prevData,
+      [name]: checked,
+    }));
+    responseFilters()
+  };
+  const onChangeCheckbox = (event: any) => {
+    const { name, checked } = event.target;
+    setFilter((prevData: any) => {
+      const updatedDietNeeds = checked
+        ? [...prevData.dietNeeds, name]
+        : prevData.dietNeeds.filter((item: any) => item !== name);
+      return {
+        ...prevData,
+        dietNeeds: updatedDietNeeds,
+      };
+    });
+  };
+  const onChangeCheckbox2 = (event: any) => {
+    const { name, checked } = event.target;
+    setFilter((prevData: any) => {
+      const updatedAllergen = checked
+        ? [...prevData.allergenFilters, name]
+        : prevData.allergenFilters.filter((item: any) => item !== name);
+      return {
+        ...prevData,
+        allergenFilters: updatedAllergen,
+      };
+    });
+  };
+  const [featurdData, setFeaturedData] = useState<any[]>([]);
+  const getAllproducts = async () => {
+    const passObject = {
+      searchText: '',
+      onSales: true,
+      type: '',
+      newArrivals: false,
+      minPrice: 0,
+      maxPrice: 150,
+      dietNeeds: [],
+      allergenFilters: [],
+    };
+
+    const testObj = { ...passObject } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      console.log(testObj[element], newobj[element]);
+
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
+    console.log('newobj', newobj);
+    const responseAllProducts = await allProducts(newobj);
+    console.log('responseAllProducts', responseAllProducts);
+    console.log('responseAllProducts', responseAllProducts.message);
+    if (responseAllProducts.done === true) {
+      setFeaturedData(responseAllProducts.message);
+    }
+  };
+  useEffect(() => {
+    getAllproducts();
+  }, []);
+  const responseFilters=async()=>{
+  const filtersData= await applyFilters(filter)
+  console.log("filtersData",filtersData);
+  }
   return (
     <div>
       <Navbar
@@ -114,44 +185,62 @@ const Product = () => {
         className="ProductHero"
       />
       <Swipe slides={HeroSlider} slidesPerView={6} />
-      <Sidebar heading="Filter" buttonlabel="Clear All">
-        <Input label="On Sales" type="checkbox" role="switch" checked={true} />
-        <Input
-          label="New Arrivals"
-          type="checkbox"
-          role="switch"
-          checked={true}
+      <Sidebar heading="Filter" buttonlabel="Clear All" onClear={handleClear}>
+        <Toggle
+          labelLeft="On Sales"
+          name="onSales"
+          checked={filter.onSales}
+          onChange={onChangeFilter}
+        />
+        <Toggle
+          labelLeft="New Arrivals "
+           name="newArrivals"
+          checked={filter.newArrivals}
+          onChange={onChangeFilter}
         />
         <RcAccordion heading="Price Range">
           <PriceRangeSlider
-            min={0}
-            max={150}
+            min={filter.minPrice}
+            max={filter.maxPrice}
             onValueChange={handleChange}
             value={value}
           />
         </RcAccordion>
         <RcAccordion heading="Dietary Needs">
-          <Input rightLabel="Sugar Free" type="checkbox" />
-          <Input rightLabel="Low Fat" type="checkbox" />
-          <Input rightLabel="Fat-Free" type="checkbox" />
-          <Input rightLabel="Vegan" type="checkbox" />
-          <Input rightLabel="Saturated Fat-Free " type="checkbox" />
+          {dietNeedsArray &&
+            dietNeedsArray.map((item: any, index) => {
+              return (
+                <div key={index}>
+                  <Input
+                    rightLabel={item}
+                    name={item}
+                    type="checkbox"
+                    checked={filter.dietNeeds.includes(item)}
+                    onChange={onChangeCheckbox}
+                  />
+                </div>
+              );
+            })}
         </RcAccordion>
         <RcAccordion heading="Allergence Free">
-          <Input rightLabel="Sugar Free" type="checkbox" />
-          <Input rightLabel="Low Fat" type="checkbox" />
-          <Input rightLabel="Fat-Free" type="checkbox" />
-          <Input rightLabel="Vegan" type="checkbox" />
-          <Input rightLabel="Saturated Fat-Free " type="checkbox" />
-        </RcAccordion>
-        <RcAccordion heading="Allergence Free">
-          <Input rightLabel="Sugar Free" type="checkbox" />
-          <Input rightLabel="Low Fat" type="checkbox" />
-          <Input rightLabel="Fat-Free" type="checkbox" />
+          {alllergenceArray &&
+            alllergenceArray.map((item: any, index) => {
+              return (
+                <div key={index}>
+                  <Input
+                    rightLabel={item}
+                    name={item}
+                    type="checkbox"
+                    checked={filter.allergenFilters.includes(item)}
+                    onChange={onChangeCheckbox2}
+                  />
+                </div>
+              );
+            })}
         </RcAccordion>
       </Sidebar>
       <Heading headingName="Vegetables" />
-      <Pagination productArray={Vegatables} />
+      <Pagination productArray={featurdData} />
       <Footer />
     </div>
   );
