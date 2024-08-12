@@ -15,11 +15,6 @@ import HouseholdIcon from '../../assets/home.png';
 import Pizza from '../../assets/Pizza.png';
 import Egg from '../../assets/Egg.png';
 import Chicken from '../../assets/chicken.png';
-// import SmartChoice from '../../Module/Home/SmartChoice';
-// import peanutJar from '../../assets/peanutJar.png';
-// import bread from '../../assets/bread.png';
-// import popconPack from '../../assets/popconPack.png';
-// import cucumberJar from '../../assets/cucumberJar.png';
 import FeaturedData from '../../Module/Home/FeaturedData';
 import RightArrow from '../../assets/rightArrow';
 import Discount from '../../Module/Home/Discount';
@@ -29,52 +24,16 @@ import Cococola from '../../assets/Cocacola.png';
 import PizzaHurt from '../../assets/PizzaHurt.png';
 import Chili from '../../assets/chiliBeans.png';
 import Nestle from '../../assets/nestle.png';
-// import Carret from '../../assets/carret.png';
-// import Cabbage from '../../assets/cabbage.png';
-// import Tomato from '../../assets/tomato.png';
-// import Broccoli from '../../assets/broccoli.png';
 import Footer from '../../Component/Footer';
 import Heading from '../../Component/Heading';
 import { allProducts } from '../../api/auth/index';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux'
+import { setSearchText } from '../../redux-slices/search.slice';
+
 const Home = () => {
-  const [search, setSearch] = useState('');
-  const handleSearch = (event: any) => {
-    setSearch(event.target.value);
-  };
-  const [featurdData, setFeaturedData] = useState<any[]>([]);
-  const getAllproducts = async () => {
-    const passObject = {
-      searchText: '',
-      onSales: true,
-      type: '',
-      newArrivals: false,
-      minPrice: 0,
-      maxPrice: 150,
-      dietNeeds: [],
-      allergenFilters: [],
-    };
-    const testObj = { ...passObject } as Record<string, any>;
-    const newobj = {} as Record<string, any>;
-    for (const element in testObj as string[]) {
-      console.log(testObj[element], newobj[element]);
-
-      newobj[element] =
-        testObj[element]?.length == 0 ? undefined : testObj[element];
-    }
-    console.log('newobj', newobj);
-    const responseAllProducts = await allProducts(newobj);
-    console.log('responseAllProducts', responseAllProducts);
-    console.log('responseAllProducts', responseAllProducts.message);
-    if (responseAllProducts.done === true) {
-      setFeaturedData(responseAllProducts.message);
-    }
-  };
-  useEffect(() => {
-    getAllproducts();
-  }, []);
-  // console.log('featurdData', featurdData);
-
+  const navigate = useNavigate();
   const HeroSlider = [
     {
       image: FruitIcon,
@@ -141,58 +100,104 @@ const Home = () => {
       description: 'product description is here',
     },
   ];
-  // const featurdData = [
-  //   {
-  //     name: 'Product Name',
-  //     image: peanutJar,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: bread,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: popconPack,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: cucumberJar,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  // ];
-  // const hygenicFoodArray = [
-  //   {
-  //     name: 'Product Name',
-  //     image: Carret,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: Cabbage,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: Tomato,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: 'Product Name',
-  //     image: Broccoli,
-  //     price: 50,
-  //     quantity: 1,
-  //   },
-  // ];
+  const searchValue = useSelector((state:any) =>state.searchBox.search)
+  console.log("searchValue",searchValue);
+  const dispatch = useDispatch();
+  
+
+  // const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState({
+    searchText: '',
+    onSales: true,
+    type: '',
+    newArrivals: false,
+    minPrice: 0,
+    maxPrice: 150,
+    dietNeeds: [],
+    allergenFilters: [],
+  });
+  const handleSearch = (event: any) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      searchText: event.target.value,
+    }));
+  };
+
+  // const undefinedAll = () => {
+  //   const passObject = {
+  //     searchText: '',
+  //     onSales: true,
+  //     type: '',
+  //     newArrivals: false,
+  //     minPrice: 0,
+  //     maxPrice: 150,
+  //     dietNeeds: [],
+  //     allergenFilters: [],
+  //   };
+  //   const testObj = { ...passObject } as Record<string, any>;
+  //   const newobj = {} as Record<string, any>;
+  //   for (const element in testObj as string[]) {
+  //     console.log(testObj[element], newobj[element]);
+  //     newobj[element] =
+  //       testObj[element]?.length == 0 ? undefined : testObj[element];
+  //   }
+  //   console.log('newobj', newobj);
+  //   return newobj;
+  // };
+  // const apiCall = async (newobj: any) => {
+  //   const responseAllProducts = await allProducts(newobj);
+  //   console.log('responseAllProducts', responseAllProducts);
+  //   console.log('responseAllProducts', responseAllProducts.message);
+  //   if (responseAllProducts.done === true) {
+  //     setFeaturedData(responseAllProducts.message);
+  //   }
+  // };
+  const searchFc = () => {
+    dispatch(setSearchText(filter));
+    const testObj = { ...filter } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      // console.log(testObj[element], newobj[element]);
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
+    console.log('newobj', newobj);
+
+    if (newobj.searchText) {
+      navigate('/Product');
+      // apiCall(newobj);
+    }
+  };
+  const [featurdData, setFeaturedData] = useState<any[]>([]);
+  const getAllproducts = async () => {
+    const passObject = {
+      searchText: '',
+      onSales: true,
+      type: '',
+      newArrivals: false,
+      minPrice: 0,
+      maxPrice: 150,
+      dietNeeds: [],
+      allergenFilters: [],
+    };
+    const testObj = { ...passObject } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      // console.log(testObj[element], newobj[element]);
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
+    console.log('newobj', newobj);
+    const responseAllProducts = await allProducts(newobj);
+    // console.log('responseAllProducts', responseAllProducts);
+    console.log('responseAllProducts.message', responseAllProducts.message);
+    if (responseAllProducts.done === true) {
+      setFeaturedData(responseAllProducts.message);
+    }
+  };
+  useEffect(() => {
+    getAllproducts();
+  }, []);
 
   return (
     <div>
@@ -208,24 +213,12 @@ const Home = () => {
         inputPlaceholder="What are you looking for..."
         buttonIcon={<Search />}
         className="HomeHero"
-        onSearch={() => {}}
-        value={search}
+        onSearch={searchFc}
+        value={filter.searchText}
         onChange={handleSearch}
       />
       <Swipe slides={HeroSlider} slidesPerView={6} />
       <Heading headingName="Smart Choices" />
-      {/* <div className="smartChoice">
-        {smartChoices?.map((iteam) => {
-          return (
-            <SmartChoice
-              className="SmartChoiceIteam"
-              imageSrc={iteam.image}
-              label={iteam.label}
-              description={iteam.description}
-            />
-          );
-        })}
-      </div> */}
       <div className="smartChoice">
         <Swipe
           slides={smartChoices}
@@ -293,7 +286,6 @@ const Home = () => {
           );
         })}
       </div>
-
       <Sponsers
         imageCoke={Cococola}
         imageChili={Chili}

@@ -22,8 +22,16 @@ import Pagination from '../../Component/Pagination';
 import Footer from '../../Component/Footer';
 import { allProducts } from '../../api/auth';
 import Toggle from 'react-styled-toggle';
-import {applyFilters} from '../../api/auth'
+import { applyFilters } from '../../api/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setSearchText,
+  clearSearchData,
+} from '../../redux-slices/search.slice';
 const Product = () => {
+  const searchValue = useSelector((state: any) => state.searchBox.searchText);
+  console.log('searchValue', searchValue);
+  const dispatch = useDispatch();
   const dietNeedsArray = [
     'Sugar Free',
     'Low Fat',
@@ -83,13 +91,9 @@ const Product = () => {
       dietNeeds: [],
       allergenFilters: [],
     });
+    setFlag(true);
   };
-  const [value, setValue] = useState();
-  const handleChange = (newValue: any) => {
-    const [minValue,maxValue]=newValue
-
-    setValue(newValue);
-  };
+  const [falg, setFlag] = useState(false);
   const [filter, setFilter] = useState({
     searchText: '',
     onSales: true,
@@ -100,16 +104,26 @@ const Product = () => {
     dietNeeds: [],
     allergenFilters: [],
   });
-  const onChangeFilter = (event: any) => {
+  const handleChange = (newValue: any) => {
+    const [minValue, maxValue] = newValue;
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      minPrice: minValue,
+      maxPrice: maxValue,
+    }));
+    setFlag(true);
+  };
+  const onToggle = (event: any) => {
     const { name, checked } = event.target;
-    console.log("checked",checked);
-     setFilter((prevData) => ({
+    console.log('checked', checked);
+    setFilter((prevData) => ({
       ...prevData,
       [name]: checked,
     }));
-    responseFilters()
+    setFlag(true);
+    // responseFilters();
   };
-  const onChangeCheckbox = (event: any) => {
+  const onChangeDietNeeds = (event: any) => {
     const { name, checked } = event.target;
     setFilter((prevData: any) => {
       const updatedDietNeeds = checked
@@ -120,8 +134,9 @@ const Product = () => {
         dietNeeds: updatedDietNeeds,
       };
     });
+    setFlag(true);
   };
-  const onChangeCheckbox2 = (event: any) => {
+  const onChangeAllergenFilters = (event: any) => {
     const { name, checked } = event.target;
     setFilter((prevData: any) => {
       const updatedAllergen = checked
@@ -132,21 +147,99 @@ const Product = () => {
         allergenFilters: updatedAllergen,
       };
     });
+    setFlag(true);
+  };
+  const handleSearch = (event: any) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      searchText: event.target.value,
+    }));
+  };
+  const searchFc = () => {
+    console.log('filter', filter);
+    dispatch(setSearchText(filter));
+    const testObj = { ...filter } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      // console.log(testObj[element], newobj[element]);
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
+    console.log('newobj', newobj);
+
+    if (newobj.searchText) {
+      // navigate('/Product');
+      // apiCall(newobj);
+      getAllproducts();
+    }
   };
   const [featurdData, setFeaturedData] = useState<any[]>([]);
   const getAllproducts = async () => {
-    const passObject = {
-      searchText: '',
-      onSales: true,
-      type: '',
-      newArrivals: false,
-      minPrice: 0,
-      maxPrice: 150,
-      dietNeeds: [],
-      allergenFilters: [],
-    };
+    if (filter.searchText) {
+      console.log('filter::', filter);
+      const testObj = { ...filter } as Record<string, any>;
+      const newobj = {} as Record<string, any>;
+      for (const element in testObj as string[]) {
+        newobj[element] =
+          testObj[element]?.length == 0 ? undefined : testObj[element];
+      }
+      console.log('newobj', newobj);
+      const responseAllProducts = await allProducts(newobj);
+      console.log('responseAllProducts', responseAllProducts);
+      console.log('responseAllProducts', responseAllProducts.message);
+      if (responseAllProducts.done === true) {
+        setFeaturedData(responseAllProducts.message);
+        dispatch(clearSearchData());
+      }
+    } else if (searchValue) {
+      console.log(1, searchValue);
+      const updatedObj = {
+        searchText: searchValue,
+        onSales: true,
+        type: '',
+        newArrivals: false,
+        minPrice: 0,
+        maxPrice: 150,
+        dietNeeds: [],
+        allergenFilters: [],
+      };
+      console.log('filter::', updatedObj);
+      const testObj = { ...updatedObj } as Record<string, any>;
+      const newobj = {} as Record<string, any>;
+      for (const element in testObj as string[]) {
+        newobj[element] =
+          testObj[element]?.length == 0 ? undefined : testObj[element];
+      }
+      console.log('newobj', newobj);
+      const responseAllProducts = await allProducts(newobj);
+      console.log('responseAllProducts', responseAllProducts);
+      console.log('responseAllProducts', responseAllProducts.message);
+      if (responseAllProducts.done === true) {
+        setFeaturedData(responseAllProducts.message);
+        dispatch(clearSearchData());
+      }
+    } else {
+      const testObj = { ...filter } as Record<string, any>;
+      const newobj = {} as Record<string, any>;
+      for (const element in testObj as string[]) {
+        newobj[element] =
+          testObj[element]?.length == 0 ? undefined : testObj[element];
+      }
+      console.log('newobj', newobj);
+      const responseAllProducts = await allProducts(newobj);
+      console.log('responseAllProducts', responseAllProducts);
+      console.log('responseAllProducts', responseAllProducts.message);
+      if (responseAllProducts.done === true) {
+        setFeaturedData(responseAllProducts.message);
+      }
+    }
+  };
+  useEffect(() => {
+    getAllproducts();
+  }, []);
 
-    const testObj = { ...passObject } as Record<string, any>;
+  const responseFilters = async () => {
+    const testObj = { ...filter } as Record<string, any>;
     const newobj = {} as Record<string, any>;
     for (const element in testObj as string[]) {
       console.log(testObj[element], newobj[element]);
@@ -154,20 +247,18 @@ const Product = () => {
       newobj[element] =
         testObj[element]?.length == 0 ? undefined : testObj[element];
     }
+    console.log('filter', filter);
     console.log('newobj', newobj);
-    const responseAllProducts = await allProducts(newobj);
-    console.log('responseAllProducts', responseAllProducts);
-    console.log('responseAllProducts', responseAllProducts.message);
-    if (responseAllProducts.done === true) {
-      setFeaturedData(responseAllProducts.message);
+    const filtersData = await applyFilters(newobj);
+    console.log('filtersData', filtersData);
+    console.log('filtersData', filtersData.message);
+    if (filtersData.done === true) {
+      setFeaturedData(filtersData.message);
     }
   };
-  useEffect(() => {
-    getAllproducts();
-  }, []);
-  const responseFilters=async()=>{
-  const filtersData= await applyFilters(filter)
-  console.log("filtersData",filtersData);
+  if (falg === true) {
+    responseFilters();
+    setFlag(false);
   }
   return (
     <div>
@@ -183,6 +274,9 @@ const Product = () => {
         inputPlaceholder="What are you looking for..."
         buttonIcon={<Search />}
         className="ProductHero"
+        onSearch={searchFc}
+        value={filter.searchText}
+        onChange={handleSearch}
       />
       <Swipe slides={HeroSlider} slidesPerView={6} />
       <Sidebar heading="Filter" buttonlabel="Clear All" onClear={handleClear}>
@@ -190,20 +284,19 @@ const Product = () => {
           labelLeft="On Sales"
           name="onSales"
           checked={filter.onSales}
-          onChange={onChangeFilter}
+          onChange={onToggle}
         />
         <Toggle
           labelLeft="New Arrivals "
-           name="newArrivals"
+          name="newArrivals"
           checked={filter.newArrivals}
-          onChange={onChangeFilter}
+          onChange={onToggle}
         />
         <RcAccordion heading="Price Range">
           <PriceRangeSlider
+            onValueChange={handleChange}
             min={filter.minPrice}
             max={filter.maxPrice}
-            onValueChange={handleChange}
-            value={value}
           />
         </RcAccordion>
         <RcAccordion heading="Dietary Needs">
@@ -216,7 +309,7 @@ const Product = () => {
                     name={item}
                     type="checkbox"
                     checked={filter.dietNeeds.includes(item)}
-                    onChange={onChangeCheckbox}
+                    onChange={onChangeDietNeeds}
                   />
                 </div>
               );
@@ -232,14 +325,14 @@ const Product = () => {
                     name={item}
                     type="checkbox"
                     checked={filter.allergenFilters.includes(item)}
-                    onChange={onChangeCheckbox2}
+                    onChange={onChangeAllergenFilters}
                   />
                 </div>
               );
             })}
         </RcAccordion>
       </Sidebar>
-      <Heading headingName="Vegetables" />
+      <Heading headingName={searchValue || 'vegetables'} />
       <Pagination productArray={featurdData} />
       <Footer />
     </div>

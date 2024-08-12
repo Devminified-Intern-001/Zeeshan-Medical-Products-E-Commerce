@@ -48,7 +48,7 @@ export const publicRoutes: RouteObject[] =[
             element: <Profile/> ,
           },
           {
-            path: "/ShopItem",
+            path: "/ShopItem/:productName",
             element: <ShopItem/> ,
           },
           {

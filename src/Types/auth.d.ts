@@ -65,3 +65,39 @@ interface allProductResponse {
   message: allProductMessage;
   error: string | null;
 }
+interface amountsPerServingMessage {
+  item: string;
+  value: string;
+  valuePercent: number;
+}[]
+
+interface reviewsMessage {
+  userName: string;
+  rating: number;
+  reviewText: string;
+  reviewDate: string;
+}[]
+interface productShopItemMessage {
+  title: string;
+  price: number;
+  productType: string;
+  images: string[];
+  defaultImage: number;
+  ingredients: string[];
+  servingPerContainer: number;
+  servingSize: string;
+  tags: string[];
+  amountsPerServing: amountsPerServingMessage;
+  alertMsg  : string;
+  orderCount: number;
+  unit: string;
+  reviews: reviewsMessage;
+  reviewCount: number;
+  avgRating: number;
+  ratingStats: number[];
+}
+interface productShopItem{
+  done: boolean;
+  message: productShopItemMessage;
+  error: string | null;
+}

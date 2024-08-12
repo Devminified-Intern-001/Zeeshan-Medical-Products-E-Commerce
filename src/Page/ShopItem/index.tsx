@@ -23,7 +23,14 @@ import bread from '../../assets/bread.png';
 import popconPack from '../../assets/popconPack.png';
 import cucumberJar from '../../assets/cucumberJar.png';
 import Footer from '../../Component/Footer';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { productShopIteam } from '../../api/auth';
+
 const ShopItem = () => {
+  const { productName } = useParams();
+console.log("productName",productName);
+
   const HeroSlider = [
     {
       image: VegetableIcon,
@@ -100,6 +107,14 @@ const ShopItem = () => {
       productImage: cucumberJar,
     },
   ];
+  const fetchdata=async()=>{
+    const response=await productShopIteam({ productName: productName as string } )
+    console.log("response",response);
+    
+  }
+  useEffect(() => {
+    fetchdata();
+  }, []);
   return (
     <div>
       <Navbar

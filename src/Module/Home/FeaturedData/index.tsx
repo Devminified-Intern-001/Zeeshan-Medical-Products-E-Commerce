@@ -32,7 +32,7 @@ const FeaturedData = (props: Iprops) => {
   return (
     <div className="featured">
       <div>
-      <Link to={'/ShopItem'}><img src={`${API_URL}/img/${image}`} alt="img not found" /></Link>
+      <Link to={`/ShopItem/${productName}`}><img src={`${API_URL}/img/${image}`} alt="img not found" style={{height:91, width:110}} /></Link>
 
         
         <p>{productName}</p>

@@ -21,6 +21,7 @@ const Hero = (props: IHero) => {
     value,
     onChange,
   } = props;
+  // console.log("onSearch:",onSearch);
   
   return (
     <div className={className}>
