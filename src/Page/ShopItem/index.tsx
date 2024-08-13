@@ -24,13 +24,33 @@ import popconPack from '../../assets/popconPack.png';
 import cucumberJar from '../../assets/cucumberJar.png';
 import Footer from '../../Component/Footer';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { productShopIteam } from '../../api/auth';
 
 const ShopItem = () => {
   const { productName } = useParams();
-console.log("productName",productName);
-
+  //console.log('productName', productName);
+  const [product, setProduct] = useState({
+    title: '',
+    price: 0,
+    productType: '',
+    images: [],
+    defaultImage: null,
+    ingredients: [],
+    servingPerContainer: null,
+    servingSize: '',
+    tags: [],
+    amountsPerServing: {},
+    alertMsg: '',
+    orderCount: 0,
+    unit: '',
+    reviews: {},
+    reviewCount: null,
+    avgRating: 0,
+    ratingStats: [],
+    quantity: 0,
+    description: '',
+  });
   const HeroSlider = [
     {
       image: VegetableIcon,
@@ -107,11 +127,17 @@ console.log("productName",productName);
       productImage: cucumberJar,
     },
   ];
-  const fetchdata=async()=>{
-    const response=await productShopIteam({ productName: productName as string } )
-    console.log("response",response);
-    
-  }
+  const fetchdata = async () => {
+    const response = await productShopIteam({
+      productName: productName as string,
+    });
+    //console.log('response', response);
+    setProduct(response.message);
+  };
+  //console.log('product', product);
+  //console.log('product.productType', product.productType);
+  //console.log('product.avgRating', product.avgRating);
+
   useEffect(() => {
     fetchdata();
   }, []);
@@ -128,7 +154,7 @@ console.log("productName",productName);
         className="shopitem"
         heading="Shop Item"
         parentRoutes="Home - Products"
-        currentRoute=" - Foods"
+        currentRoute={product.productType}
         onCartItem={() => {}}
         onShopItem={() => {}}
       />
@@ -136,18 +162,21 @@ console.log("productName",productName);
         <ItemDetails
           className="ItemDetails"
           category="Organic"
-          orders="223"
-          slides={HeroSlider}
+          orders={product.orderCount}
+          slides={product.images}
+          rating={product.avgRating}
         />
         <AddToCart
           className="AddToCart"
-          productName="Organic Carrots"
-          descriptopn="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+          productName={product.title}
+          descriptopn={product.description}
           deliveryIcon={DeliveryIcon}
           delivery="Deliver within 24 hrs."
           buyIcon={<Buy />}
           text="See best price in cart"
           priceStrick={50.0}
+          price={product.price}
+          quantity={product.quantity}
         />
       </div>
       <div className="NutrationsIngredient">
@@ -193,10 +222,10 @@ console.log("productName",productName);
           warnIcon={<Warn />}
         />
       </div>
-      <div className='RcProgressReviews'>
+      <div className="RcProgressReviews">
         <div>
           <RcProgress
-          heading='Reviews from buyers'
+            heading="Reviews from buyers"
             ratingPoints={4.2}
             totalReview={234}
             completed5={90}
@@ -209,22 +238,22 @@ console.log("productName",productName);
         </div>
         <div>
           <SortBy label="Time" />
-          {ReviewsArray?.map((item) => {
+          {ReviewsArray?.map((item, index) => {
             return (
-              <>
+              <div key={index}>
                 <Reviews
                   name={item.name}
                   date={item.date}
                   description={item.description}
                   image={item.image}
                 />
-              </>
+              </div>
             );
           })}
         </div>
       </div>
-      <Recommand heading='Recommanded' productArray={RecommandedArray}  />
-          <Footer/>
+      <Recommand heading="Recommanded" productArray={RecommandedArray} />
+      <Footer />
     </div>
   );
 };

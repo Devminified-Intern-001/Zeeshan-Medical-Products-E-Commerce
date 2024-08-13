@@ -115,7 +115,7 @@ export const allProducts = async (data: {
   dietNeeds?: string[];
   allergenFilters?: string[];
 }): Promise<allProductResponse> => {
-  return await request('/product/get?maxNumber=10', {
+  return await request('/product/get?maxNumber=4', {
     data,
     method: 'POST',
   }).then((res: any) => {
@@ -145,7 +145,9 @@ export const applyFilters = async (data: {
     return res;
   });
 };
-export const productShopIteam = async (data:{productName:string}): Promise<productShopItem> => {
+export const productShopIteam = async (data: {
+  productName: string;
+}): Promise<productShopItem> => {
   return await request(`/product/${data.productName}`, {
     method: 'GET',
   }).then((res: any) => {

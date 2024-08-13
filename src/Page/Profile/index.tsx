@@ -63,7 +63,7 @@ const Profile = () => {
       //     Authorization: `Bearer ${cookies.get('accessToken')}`,
       //   },
       // });
-      console.log(response);
+      // console.log(response);
       if(response.done===true){
         
         const {userName,email,gender,mobile,nic,dateOfBirth}=response.message

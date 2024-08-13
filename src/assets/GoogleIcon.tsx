@@ -1,5 +1,3 @@
-import React from 'react';
-
 const GoogleIcon = () => {
   return (
     <span>
@@ -10,7 +8,7 @@ const GoogleIcon = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_115_735)">
+        <g clipPath="url(#clip0_115_735)">
           <path
             d="M19.9895 10.1868C19.9895 9.36743 19.9215 8.76949 19.7742 8.14941H10.1993V11.8477H15.8196C15.7063 12.7668 15.0944 14.1509 13.7346 15.081L13.7156 15.2048L16.743 17.4967L16.9527 17.5171C18.879 15.7786 19.9895 13.2208 19.9895 10.1868Z"
             fill="#4285F4"

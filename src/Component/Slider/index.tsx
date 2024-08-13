@@ -7,6 +7,7 @@ import 'swiper/css/bundle';
 import '../../MyCSS.css';
 import { useEffect, useState } from 'react';
 import FeaturedData from '../../Module/Home/FeaturedData';
+import { API_URL } from '../../config';
 
 type ISwiper = {
   slidesPerView?: number;
@@ -16,16 +17,13 @@ type ISwiper = {
     label?: string;
     description?: string;
   }[];
-  productArray?: {
-    productImage?: string;
-    productName?: string;
-  }[];
-  condition?:boolean
+  productArray?: string[];
+  condition?: boolean;
 };
 
 const Swipe = (props: ISwiper) => {
   const [currentImage, setCurrentImage] = useState<string>();
-  const { slides, className, slidesPerView,productArray,condition } = props;
+  const { slides, className, slidesPerView, productArray, condition } = props;
   const swiperProps = {
     loop: false,
     cssMode: true,
@@ -50,10 +48,10 @@ const Swipe = (props: ISwiper) => {
     },
   };
   useEffect(() => {
-    if (slides && slides.length > 0) {
-      setCurrentImage(slides[0].image || '');
+    if (productArray && productArray.length > 0) {
+      setCurrentImage(productArray[0] || '');
     }
-  }, [slides]);
+  }, [productArray]);
 
   const handleSlideChange = (image: string | undefined) => {
     if (image) {
@@ -64,46 +62,60 @@ const Swipe = (props: ISwiper) => {
 
   return (
     <div className={className}>
-      {
-        condition? (  <Swiper {...swiperProps}>
-          {productArray &&
-            productArray?.map((iteam, index) => {
+      {condition ? (
+        <Swiper {...swiperProps}>
+          {slides &&
+            slides.map((slide, index) => {
+              // console.log(slide);
+
               return (
-                <SwiperSlide key={index}>
-                  <div>
-                    <FeaturedData
-                      productName={iteam.productName}
-                      image={iteam.productImage}
-                    />
+                <SwiperSlide
+                  key={index}
+                  onClick={() => handleSlideChange(slide.image)}
+                >
+                  <img src={slide.image} alt={slide.image} />
+                  <div className="relpostion">
+                    <div>{slide.label}</div>
+                    {slide.description}
                   </div>
                 </SwiperSlide>
               );
             })}
-        </Swiper>):(
-<>
-{<img src={currentImage} alt={currentImage} />}
-      <Swiper {...swiperProps}>
-        {slides &&
-          slides.map((slide, index) => {
-            // console.log(slide);
+        </Swiper>
+      ) : (
+        <>
+          {
+            <img
+              src={`${API_URL}/img/${currentImage}`}
+              alt={currentImage}
+              style={{ height: 307, width: 423 }}
+            />
+          }
+          <Swiper {...swiperProps}>
+            {productArray &&
+              productArray.map((slide, index) => {
+                // console.log(slide);
 
-            return (
-              <SwiperSlide
-                key={index}
-                onClick={() => handleSlideChange(slide.image)}
-              >
-                <img src={slide.image} alt={slide.image} />
-                <div className="relpostion">
-                  <div>{slide.label}</div>
-                  {slide.description}
-                </div>
-              </SwiperSlide>
-            );
-          })}
-      </Swiper></>
-        )
-      }
-     
+                return (
+                  <SwiperSlide
+                    key={index}
+                    onClick={() => handleSlideChange(slide)}
+                  >
+                    <img
+                      src={`${API_URL}/img/${slide}`}
+                      alt={slide}
+                      style={{ height: 91, width: 110 }}
+                    />
+                    {/* <div className="relpostion">
+                      <div>{slide.label}</div>
+                      {slide.description}
+                    </div> */}
+                  </SwiperSlide>
+                );
+              })}
+          </Swiper>
+        </>
+      )}
     </div>
   );
 };

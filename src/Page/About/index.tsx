@@ -47,9 +47,9 @@ const About = () => {
       />
       <img src={AboutUsImage} alt="AboutUsImage" />
       <div className="TilesArrayNumberMainDiv">
-        {TilesArrayNumber?.map((iteam) => {
+        {TilesArrayNumber?.map((iteam,index) => {
           return (
-            <div>
+            <div key={index}>
               <Tiles
                 number_text={iteam.number_text}
                 heading={iteam.heading}

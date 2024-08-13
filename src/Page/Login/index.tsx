@@ -36,7 +36,7 @@ const Login = () => {
 
     try {
       const response = await login(loginInfo);
-      console.log('response', response.userData);
+      // console.log('response', response.userData);
       if (response.done) {
         const newData = {
           userData: response.userData,

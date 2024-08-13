@@ -29,7 +29,7 @@ import Heading from '../../Component/Heading';
 import { allProducts } from '../../api/auth/index';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useSelector,useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { setSearchText } from '../../redux-slices/search.slice';
 
 const Home = () => {
@@ -100,12 +100,9 @@ const Home = () => {
       description: 'product description is here',
     },
   ];
-  const searchValue = useSelector((state:any) =>state.searchBox.search)
-  console.log("searchValue",searchValue);
-  const dispatch = useDispatch();
-  
 
-  // const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
+
   const [filter, setFilter] = useState({
     searchText: '',
     onSales: true,
@@ -122,50 +119,16 @@ const Home = () => {
       searchText: event.target.value,
     }));
   };
-
-  // const undefinedAll = () => {
-  //   const passObject = {
-  //     searchText: '',
-  //     onSales: true,
-  //     type: '',
-  //     newArrivals: false,
-  //     minPrice: 0,
-  //     maxPrice: 150,
-  //     dietNeeds: [],
-  //     allergenFilters: [],
-  //   };
-  //   const testObj = { ...passObject } as Record<string, any>;
-  //   const newobj = {} as Record<string, any>;
-  //   for (const element in testObj as string[]) {
-  //     console.log(testObj[element], newobj[element]);
-  //     newobj[element] =
-  //       testObj[element]?.length == 0 ? undefined : testObj[element];
-  //   }
-  //   console.log('newobj', newobj);
-  //   return newobj;
-  // };
-  // const apiCall = async (newobj: any) => {
-  //   const responseAllProducts = await allProducts(newobj);
-  //   console.log('responseAllProducts', responseAllProducts);
-  //   console.log('responseAllProducts', responseAllProducts.message);
-  //   if (responseAllProducts.done === true) {
-  //     setFeaturedData(responseAllProducts.message);
-  //   }
-  // };
   const searchFc = () => {
     dispatch(setSearchText(filter));
     const testObj = { ...filter } as Record<string, any>;
     const newobj = {} as Record<string, any>;
     for (const element in testObj as string[]) {
-      // console.log(testObj[element], newobj[element]);
       newobj[element] =
         testObj[element]?.length == 0 ? undefined : testObj[element];
     }
-    console.log('newobj', newobj);
-
     if (newobj.searchText) {
       navigate('/Product');
-      // apiCall(newobj);
     }
   };
   const [featurdData, setFeaturedData] = useState<any[]>([]);
@@ -183,14 +146,10 @@ const Home = () => {
     const testObj = { ...passObject } as Record<string, any>;
     const newobj = {} as Record<string, any>;
     for (const element in testObj as string[]) {
-      // console.log(testObj[element], newobj[element]);
       newobj[element] =
         testObj[element]?.length == 0 ? undefined : testObj[element];
     }
-    console.log('newobj', newobj);
     const responseAllProducts = await allProducts(newobj);
-    // console.log('responseAllProducts', responseAllProducts);
-    console.log('responseAllProducts.message', responseAllProducts.message);
     if (responseAllProducts.done === true) {
       setFeaturedData(responseAllProducts.message);
     }
@@ -217,13 +176,14 @@ const Home = () => {
         value={filter.searchText}
         onChange={handleSearch}
       />
-      <Swipe slides={HeroSlider} slidesPerView={6} />
+      <Swipe slides={HeroSlider} slidesPerView={6} condition={true} />
       <Heading headingName="Smart Choices" />
       <div className="smartChoice">
         <Swipe
           slides={smartChoices}
           slidesPerView={3}
           className="SmartChoiceIteam"
+          condition={true}
         />
       </div>
       <Heading headingName="Featured" text="see more" icon={<RightArrow />} />

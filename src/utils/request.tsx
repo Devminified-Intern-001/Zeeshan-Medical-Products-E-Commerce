@@ -15,23 +15,14 @@ const pendingRequests = new Map();
 axios.interceptors.response.use(
   (response) => response,
   async (error = {}) => {
-    console.log('error::::::', error);
-
     const { status, config } = error.response || {};
-    console.log('error.response:::::', error.response);
     const { url } = config || {};
-    // console.log('status', status);
-    // console.log('config', config);
-    // console.log('url:::::::', url);
-
     if (status === 401) {
       console.log(
         'Access token expired or unauthorized. Attempting to refresh...'
       );
       const accessToken = cookies.get('accessToken');
       const refreshToken = cookies.get('refreshToken');
-      console.log('accessToken', accessToken);
-      console.log('refreshToken', refreshToken);
       if (refreshToken) {
         console.log('Refresh token found. Attempting to refresh tokens...');
 
@@ -40,18 +31,14 @@ axios.interceptors.response.use(
           { token: refreshToken },
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
-        console.log('response:::', response);
-
+       
         const { access, refresh } = response.data;
 
         cookies.set('accessToken', access);
         cookies.set('refreshToken', refresh);
 
         config.headers['Authorization'] = `Bearer ${access}`;
-        console.log('config.headers::::', config.headers);
-
-        return request(config);
-        // return api(originalRequest);
+       return request(config);
       } else {
         console.error('No refresh token available. Please log in again.');
       }
@@ -144,7 +131,7 @@ const apiRequest = (
 ) => {
   //   const headers: AxiosRequestHeaders = {}
   const headers: any = {};
-  console.log('customError::::', customError);
+  // console.log('customError::::', customError);
 
   if (includeAuthHeader && (cookies.get('accessToken') || token)) {
     // console.log('includeAuthHeader', includeAuthHeader);
