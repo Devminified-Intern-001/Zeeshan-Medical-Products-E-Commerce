@@ -7,7 +7,7 @@ interface IPaginationProps {
   productArray: {
     title?: string;
     price?: number;
-    quantity?:number;
+    quantity:number;
     defaultImage?:string;
   }[];
 }
@@ -28,6 +28,7 @@ const Pagination = (props: IPaginationProps) => {
     // );
     setItemOffset(newOffset);
   };
+console.log("productArray",productArray);
 
   return (
     <div className={className}>

@@ -1,26 +1,25 @@
-interface IRealtedProps{
-    className?:string;
-    heading?:string;
-    onVegetables?:()=>void
-    onLowFat?:()=>void
-    onOrganic?:()=>void
-    onLoream?:()=>void
-    onLoremIpsum?:()=>void
+/* eslint-disable @typescript-eslint/no-explicit-any */
+interface IRealtedProps {
+  className?: string;
+  tags?: string[];
+  heading?: string;
+  handleTag?: any;
 }
-import Button from "../../../Component/Button";
-const RelatedTages = (props:IRealtedProps) => {
-    const {className,heading,onVegetables,onLowFat, onOrganic,onLoream,onLoremIpsum}=props
+import Button from '../../../Component/Button';
+const RelatedTages = (props: IRealtedProps) => {
+  const { className, heading, tags } = props;
   return (
     <div className={className}>
       <h3>{heading}</h3>
-      <Button onDoubleClick={onVegetables} >Vegetables</Button>
-      <Button onDoubleClick={onLowFat} >LowFat</Button>
-      <Button onDoubleClick={onOrganic} >Organic</Button>
-      <Button onDoubleClick={onLoream} >Loream</Button>
-      <Button onDoubleClick={onLoremIpsum} >Lorem Ipsum is a dummy</Button>
-      
+      {tags?.map((tag, index) => {
+        return (
+          <div key={index}>
+            <Button >{tag}</Button>
+          </div>
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default RelatedTages
+export default RelatedTages;

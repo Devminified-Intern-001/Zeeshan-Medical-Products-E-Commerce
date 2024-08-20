@@ -59,44 +59,46 @@ interface allProductMessage {
   quantity: number;
   defaultImage: string;
 }
-[];
 interface allProductResponse {
   done: boolean;
-  message: allProductMessage;
-  error: string | null;
+  message: allProductMessage[];
 }
 interface amountsPerServingMessage {
   item: string;
   value: string;
-  valuePercent: number;
-}[]
+  valuePercent: number | null;
+}
 
 interface reviewsMessage {
   userName: string;
   rating: number;
   reviewText: string;
   reviewDate: string;
-}[]
+  userImage:string;
+}
+
 interface productShopItemMessage {
   title: string;
   price: number;
   productType: string;
+  quantity: number;
   images: string[];
-  defaultImage: number;
+  defaultImage: number | null;
   ingredients: string[];
-  servingPerContainer: number;
+  servingsPerContainer: number | null;
   servingSize: string;
   tags: string[];
-  amountsPerServing: amountsPerServingMessage;
-  alertMsg  : string;
+  amountsPerServing: amountsPerServingMessage[];
+  alertMsg: string;
   orderCount: number;
   unit: string;
-  reviews: reviewsMessage;
+  reviews: reviewsMessage[];
   reviewCount: number;
   avgRating: number;
   ratingStats: number[];
+  description: string;
 }
-interface productShopItem{
+interface productShopItem {
   done: boolean;
   message: productShopItemMessage;
   error: string | null;

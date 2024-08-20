@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import ShopIteam from '../../Module/ShopIteams/ShopIteamNavbar';
 import Navbar from '../../Component/Navbar';
 import Logo from '../../assets/Logo.png';
 import ItemDetails from '../../Module/ShopIteams/ItemDetail';
-import SmallCarrot from '../../assets/smallcarrot.png';
-import FruitIcon from '../../assets/fruit.png';
-import VegetableIcon from '../../assets/fruits-and-vegetables.png';
 import NutrationsFact from '../../Module/ShopIteams/NutritionFacts';
 import Ingredients from '../../Module/ShopIteams/Ingredients';
 import Warn from '../../assets/Warn';
@@ -16,131 +15,77 @@ import RcProgress from '../../Module/ShopIteams/Progress';
 import RelatedTages from '../../Module/ShopIteams/Related Tags';
 import SortBy from '../../Component/SortBy';
 import Reviews from '../../Module/ShopIteams/Reviews';
-import ReviewImage from '../../assets/reviewImage.png';
 import Recommand from '../../Module/ShopIteams/Recomanded';
-import peanutJar from '../../assets/peanutJar.png';
-import bread from '../../assets/bread.png';
-import popconPack from '../../assets/popconPack.png';
-import cucumberJar from '../../assets/cucumberJar.png';
 import Footer from '../../Component/Footer';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { productShopIteam } from '../../api/auth';
-
+import { allProducts, productShopIteam } from '../../api/auth';
+import FeaturedData from '../../Module/Home/FeaturedData';
 const ShopItem = () => {
   const { productName } = useParams();
-  //console.log('productName', productName);
-  const [product, setProduct] = useState({
+
+  const [product, setProduct] = useState<productShopItemMessage>({
     title: '',
     price: 0,
     productType: '',
+    quantity: 0,
     images: [],
-    defaultImage: null,
+    defaultImage: 0,
     ingredients: [],
-    servingPerContainer: null,
+    servingsPerContainer: null,
     servingSize: '',
     tags: [],
-    amountsPerServing: {},
+    amountsPerServing: [],
     alertMsg: '',
-    orderCount: 0,
     unit: '',
-    reviews: {},
-    reviewCount: null,
-    avgRating: 0,
-    ratingStats: [],
-    quantity: 0,
     description: '',
+    orderCount: 0,
+    reviews: [],
+    reviewCount: 0,
+    ratingStats: [],
+    avgRating: 0,
   });
-  const HeroSlider = [
-    {
-      image: VegetableIcon,
-    },
-    {
-      image: FruitIcon,
-    },
-    {
-      image: VegetableIcon,
-    },
-    {
-      image: FruitIcon,
-    },
-    {
-      image: SmallCarrot,
-    },
-    {
-      image: FruitIcon,
-    },
-    {
-      image: VegetableIcon,
-    },
-    {
-      image: FruitIcon,
-    },
-  ];
-  const ReviewsArray = [
-    {
-      name: 'James Jones',
-      date: '09 June 2022',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-      image: ReviewImage,
-    },
-    {
-      name: 'James Jones',
-      date: '09 June 2022',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-      image: ReviewImage,
-    },
-  ];
-  const RecommandedArray = [
-    {
-      productName: 'Product Name',
-      productImage: peanutJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: bread,
-    },
-    {
-      productName: 'Product Name',
-      productImage: popconPack,
-    },
-    {
-      productName: 'Product Name',
-      productImage: cucumberJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: peanutJar,
-    },
-    {
-      productName: 'Product Name',
-      productImage: bread,
-    },
-    {
-      productName: 'Product Name',
-      productImage: popconPack,
-    },
-    {
-      productName: 'Product Name',
-      productImage: cucumberJar,
-    },
-  ];
+
+  const [featurdData, setFeaturedData] = useState<allProductResponse>({
+    done: false,
+    message: [],
+  });
   const fetchdata = async () => {
+    const passObject = {
+      searchText: '',
+      onSales: true,
+      type: '',
+      newArrivals: false,
+      minPrice: 0,
+      maxPrice: 150,
+      dietNeeds: [],
+      allergenFilters: [],
+    };
+    const testObj = { ...passObject } as Record<string, any>;
+    const newobj = {} as Record<string, any>;
+    for (const element in testObj as string[]) {
+      newobj[element] =
+        testObj[element]?.length == 0 ? undefined : testObj[element];
+    }
     const response = await productShopIteam({
       productName: productName as string,
     });
-    //console.log('response', response);
     setProduct(response.message);
+    const responseAllProducts = await allProducts(newobj);
+    if (responseAllProducts.done === true) {
+      setFeaturedData(responseAllProducts);
+    }
   };
-  //console.log('product', product);
-  //console.log('product.productType', product.productType);
-  //console.log('product.avgRating', product.avgRating);
+
+  useEffect(() => {
+    fetchdata();
+  }, [productName]);
 
   useEffect(() => {
     fetchdata();
   }, []);
+  console.log('product.avgRating', product?.avgRating);
+
   return (
     <div>
       <Navbar
@@ -183,42 +128,38 @@ const ShopItem = () => {
         <NutrationsFact
           className="NutrationsFact"
           heading="Nutrition facts"
-          descriptopn="About 3.5 servings per container Serving size 1/2 cup (120g)"
+          servingsPerContainer={product.servingsPerContainer}
+          servingSize={product.servingSize}
           text="Amount per serving"
         >
           <table>
-            <tr>
-              <td> Calories </td>
-              <td>40</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>% Daily Value*</td>
-            </tr>
-            <tr>
-              <td> Total Fat 10g </td>
-              <td>12%</td>
-            </tr>
-            <tr>
-              <td> Sodium 5mg </td>
-              <td>37%</td>
-            </tr>
-            <tr>
-              <td> Protein 2g </td>
-              <td>55%</td>
-            </tr>
-            <tr>
-              <td> Iron 1.7mg </td>
-              <td>23%</td>
-            </tr>
+            <tbody>
+              {product.amountsPerServing?.map((obj, index) => {
+                return (
+                  <tr key={index}>
+                    <td> {obj.item} </td>
+                    <td>{obj.value}</td>
+                    <td>
+                      {obj.valuePercent ? (
+                        `${obj.valuePercent}%`
+                      ) : (
+                        <>
+                          <br />% Daily Value*
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </NutrationsFact>
         <Ingredients
           className="Ingredients"
           heading="Ingredients"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          ingredients={product.ingredients}
           warnHeading="Important"
-          text="Lorem Ipsum is simply dummy text of the printing and lorem ipsum typesetting industry."
+          text={product.alertMsg}
           warnIcon={<Warn />}
         />
       </div>
@@ -226,33 +167,48 @@ const ShopItem = () => {
         <div>
           <RcProgress
             heading="Reviews from buyers"
-            ratingPoints={4.2}
-            totalReview={234}
-            completed5={90}
-            completed4={35}
-            completed3={20}
-            completed2={10}
-            completed1={5}
+            rating={product.avgRating}
+            ratingPoints={product.reviewCount}
+            totalReview={product.reviewCount}
+            completed5={product.ratingStats[5]}
+            completed4={product.ratingStats[4]}
+            completed3={product.ratingStats[3]}
+            completed2={product.ratingStats[2]}
+            completed1={product.ratingStats[1]}
           />
-          <RelatedTages />
+          <RelatedTages tags={product.tags} />
         </div>
         <div>
           <SortBy label="Time" />
-          {ReviewsArray?.map((item, index) => {
+          {product.reviews?.map((item, index) => {
             return (
               <div key={index}>
                 <Reviews
-                  name={item.name}
-                  date={item.date}
-                  description={item.description}
-                  image={item.image}
+                  name={item.userName}
+                  date={item.reviewDate}
+                  description={item.reviewText}
+                  rating={item.rating}
+                  image={item.userImage}
                 />
               </div>
             );
           })}
         </div>
       </div>
-      <Recommand heading="Recommanded" productArray={RecommandedArray} />
+      <Recommand heading="Recommanded">
+        {featurdData.message?.map((iteam, index) => {
+          return (
+            <div key={index}>
+              <FeaturedData
+                productName={iteam.title}
+                image={iteam.defaultImage}
+                price={iteam.price}
+                quantity={iteam.quantity}
+              />
+            </div>
+          );
+        })}
+      </Recommand>
       <Footer />
     </div>
   );

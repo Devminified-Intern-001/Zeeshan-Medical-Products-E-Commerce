@@ -3,19 +3,19 @@ import { ReactNode } from 'react';
 interface Iingredientsprops {
   className?: string;
   heading?: string;
-  description?: string;
+  ingredients?: string[]
   text?: string;
   warnIcon?: ReactNode;
   warnHeading?: string;
 }
 
 const Ingredients = (props: Iingredientsprops) => {
-  const { className, heading, description, text, warnIcon, warnHeading } =
+  const { className, heading, ingredients, text, warnIcon, warnHeading } =
     props;
   return (
     <div className={className}>
       <h3>{heading}</h3>
-      <p>{description}</p>
+      {ingredients?.map((item,index)=>{return(<p key={index}>{item}</p>)})}
       <div> {warnIcon} <h4>{warnHeading}</h4>
       {text}</div>
      

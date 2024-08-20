@@ -1,5 +1,6 @@
 import Swipe from '../../../Component/Slider';
 import Rating from '../../../Component/Rating';
+import { useEffect } from 'react';
 
 interface IitemDetails {
   className?: string;
@@ -9,15 +10,23 @@ interface IitemDetails {
   rating?: number;
 }
 
-const ItemDetails = (props: IitemDetails) => {
-  const { className, category, orders, slides, rating } = props;
-  console.log('rating', rating);
+const ItemDetails = ({
+  className,
+  category,
+  orders,
+  slides,
+  rating = 0,
+}: IitemDetails) => {
+  useEffect(() => {
+    console.log('updated');
+  }, [rating]);
 
+  console.log('rating', rating);
   return (
     <div className={className}>
       <div>
         {category}
-        <Rating value={rating} />
+        {rating > -1 ? <Rating value={4} /> : null}
         {orders}orders
         <Swipe productArray={slides} slidesPerView={6} />
       </div>

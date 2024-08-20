@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Navbar from '../../Component/Navbar';
 import ShopIteam from '../../Module/ShopIteams/ShopIteamNavbar';
 import Logo from '../../assets/Logo.png';
@@ -18,49 +19,53 @@ import Tomato from '../../assets/tomato.png';
 import Broccoli from '../../assets/broccoli.png';
 import FeaturedData from '../../Module/Home/FeaturedData';
 import Footer from '../../Component/Footer';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 const Checkout = () => {
-  const RecommandedArray = [
-    {
-      productName: 'Product Name',
-      productImage: smallcarrot,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smallcabbage,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smalltomato,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smallcabbage,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smallcarrot,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smallcabbage,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smalltomato,
-      category: 'Organic Foods',
-    },
-    {
-      productName: 'Product Name',
-      productImage: smallcarrot,
-      category: 'Organic Foods',
-    },
-  ];
+    const RecommandedArray = useSelector((state: any) => state.cart.cart);
+  // const RecommandedArray = [
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcarrot,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcabbage,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smalltomato,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcabbage,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcarrot,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcabbage,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smalltomato,
+  //     category: 'Organic Foods',
+  //   },
+  //   {
+  //     productName: 'Product Name',
+  //     productImage: smallcarrot,
+  //     category: 'Organic Foods',
+  //   },
+  // ];
   const hygenicFoodArray = [
     {
       name: 'Product Name',
@@ -87,7 +92,15 @@ const Checkout = () => {
       quantity: 1,
     },
   ];
+console.log("RecommandedArray",RecommandedArray);
+const makePayment=async()=>{
+  const stripe = await loadStripe('pk_test_51PoQMIFhX0jtBgg9mzccnDeqhHKazWFadHIpJubg4qJMXufJbBmzFdt5a0suNUo3XHDoqLQaWmzxj1ePj7fFByov00y740ZaWg');
+}
+  
 
+useEffect(()=>{
+  makePayment()
+},[])
   return (
     <div>
       <Navbar
@@ -117,16 +130,18 @@ const Checkout = () => {
         <div className='ShoppingCartMain'>
 
         {RecommandedArray &&
-          RecommandedArray.map((item) => {
+          RecommandedArray.map((item:any ,index:any) => {
             return (
-              <>
+              <div key={index}>
                 <ShoppingCart
                   className="ShoppingCart"
-                  productImage={item.productImage}
-                  productName={item.productName}
-                  category={item.category}
+                  productImage={item.defaultImage}
+                  productName={item.title}
+                  category='organic food'
+                  quantity={item.quantity}
+                  item={item}
                   />
-              </>
+              </div>
             );
           })}
           </div>
@@ -151,10 +166,10 @@ const Checkout = () => {
         icon={<RightArrow />}
       />
       <div className="Hygenic">
-        {hygenicFoodArray?.map((iteam) => {
+        {hygenicFoodArray?.map((iteam,index) => {
           // const {name,price,image,quantity}=iteam
           return (
-            <div>
+            <div key={index}>
               <FeaturedData
                 className=""
                 productName={iteam.name}

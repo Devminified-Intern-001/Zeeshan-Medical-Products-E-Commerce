@@ -1,25 +1,21 @@
 // import FeaturedData from "../../Home/FeaturedData";
 // import RecommandedSwiper from "../../../Component/RecommandedSwiper";
-import Swipe from "../../../Component/Slider";
+// import Swipe from '../../../Component/Slider';
+import { ReactNode } from 'react'
 interface IRecommandProps {
   className?: string;
   heading?: string;
-  productArray: {
-    productImage?: string;
-    productName?: string;
-  }[];
+  children?: ReactNode;
 }
 
 const Recommand = (props: IRecommandProps) => {
-  const { className, productArray,heading } = props;
-  return <div className={className}>
-     <h3>{heading}</h3>
-    
-     <Swipe productArray={productArray} slidesPerView={5} condition={true} />
-      {/* <RecommandedSwiper productArray={productArray} slidesPerView={5} /> */}
-        
-     
-    </div>;
+  const { className, children, heading } = props;
+  return (
+    <div className={className}>
+      <h3>{heading}</h3>
+      {children}
+    </div>
+  );
 };
 
 export default Recommand;

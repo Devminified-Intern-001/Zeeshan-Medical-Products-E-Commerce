@@ -31,7 +31,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSearchText } from '../../redux-slices/search.slice';
-
+// import { useSelector } from 'react-redux';
+import {addToCart} from '../../redux-slices/card.slice'
 const Home = () => {
   const navigate = useNavigate();
   const HeroSlider = [
@@ -100,6 +101,8 @@ const Home = () => {
       description: 'product description is here',
     },
   ];
+//   const searchValue = useSelector((state: any) => state.cart.cart);
+// console.log("searchValue carrt",searchValue);
 
   const dispatch = useDispatch();
 
@@ -131,7 +134,10 @@ const Home = () => {
       navigate('/Product');
     }
   };
-  const [featurdData, setFeaturedData] = useState<any[]>([]);
+  const [featurdData, setFeaturedData] = useState<allProductResponse>({
+    done: false,
+    message: [],
+  });
   const getAllproducts = async () => {
     const passObject = {
       searchText: '',
@@ -151,12 +157,13 @@ const Home = () => {
     }
     const responseAllProducts = await allProducts(newobj);
     if (responseAllProducts.done === true) {
-      setFeaturedData(responseAllProducts.message);
+      setFeaturedData(responseAllProducts);
     }
   };
   useEffect(() => {
     getAllproducts();
   }, []);
+  console.log('featurdData', featurdData);
 
   return (
     <div>
@@ -184,11 +191,12 @@ const Home = () => {
           slidesPerView={3}
           className="SmartChoiceIteam"
           condition={true}
+          classNameSlides="relpostion"
         />
       </div>
       <Heading headingName="Featured" text="see more" icon={<RightArrow />} />
       <div className="Featured">
-        {featurdData?.map((iteam: any, index) => {
+        {featurdData.message?.map((iteam: any, index) => {
           return (
             <div key={index}>
               <FeaturedData
@@ -196,6 +204,8 @@ const Home = () => {
                 image={iteam.defaultImage}
                 price={iteam.price}
                 quantity={iteam.quantity}
+                item={iteam}
+                // addToCart={()=>dispatch(addToCart(iteam))}
               />
             </div>
           );
@@ -207,7 +217,7 @@ const Home = () => {
         icon={<RightArrow />}
       />
       <div className="Hygenic">
-        {featurdData?.map((iteam: any, index) => {
+        {featurdData.message?.map((iteam: any, index) => {
           return (
             <div key={index}>
               <FeaturedData
@@ -233,7 +243,7 @@ const Home = () => {
         icon={<RightArrow />}
       />
       <div className="Featured">
-        {featurdData?.map((iteam: any, index) => {
+        {featurdData.message?.map((iteam: any, index) => {
           return (
             <div key={index}>
               <FeaturedData
@@ -241,6 +251,7 @@ const Home = () => {
                 image={iteam.defaultImage}
                 price={iteam.price}
                 quantity={iteam.quantity}
+                // addToCart={}
               />
             </div>
           );

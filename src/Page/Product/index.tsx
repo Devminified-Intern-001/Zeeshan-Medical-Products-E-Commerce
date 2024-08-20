@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Navbar from '../../Component/Navbar';
 import Logo from '../../assets/Logo.png';
@@ -155,7 +156,6 @@ const Product = () => {
     }));
   };
   const searchFc = () => {
-    //console.log('filter', filter);
     dispatch(setSearchText(filter));
     const testObj = { ...filter } as Record<string, any>;
     const newobj = {} as Record<string, any>;
@@ -163,32 +163,28 @@ const Product = () => {
       newobj[element] =
         testObj[element]?.length == 0 ? undefined : testObj[element];
     }
-    // //console.log('newobj', newobj);
-
     if (newobj.searchText) {
       getAllproducts();
     }
   };
-  const [featurdData, setFeaturedData] = useState<any[]>([]);
+  const [featurdData, setFeaturedData] = useState<allProductResponse>({
+    done: false,
+    message: [],
+  });
   const getAllproducts = async () => {
     if (filter.searchText) {
-      //console.log('filter::', filter);
       const testObj = { ...filter } as Record<string, any>;
       const newobj = {} as Record<string, any>;
       for (const element in testObj as string[]) {
         newobj[element] =
           testObj[element]?.length == 0 ? undefined : testObj[element];
       }
-      // //console.log('newobj', newobj);
       const responseAllProducts = await allProducts(newobj);
-      // //console.log('responseAllProducts', responseAllProducts);
-      // //console.log('responseAllProducts', responseAllProducts.message);
       if (responseAllProducts.done === true) {
-        setFeaturedData(responseAllProducts.message);
+        setFeaturedData(responseAllProducts);
         dispatch(clearSearchData());
       }
     } else if (searchValue) {
-      //console.log(1, searchValue);
       const updatedObj = {
         searchText: searchValue,
         onSales: true,
@@ -199,19 +195,15 @@ const Product = () => {
         dietNeeds: [],
         allergenFilters: [],
       };
-      // //console.log('filter::', updatedObj);
       const testObj = { ...updatedObj } as Record<string, any>;
       const newobj = {} as Record<string, any>;
       for (const element in testObj as string[]) {
         newobj[element] =
           testObj[element]?.length == 0 ? undefined : testObj[element];
       }
-      // //console.log('newobj', newobj);
       const responseAllProducts = await allProducts(newobj);
-      // //console.log('responseAllProducts', responseAllProducts);
-      // //console.log('responseAllProducts', responseAllProducts.message);
       if (responseAllProducts.done === true) {
-        setFeaturedData(responseAllProducts.message);
+        setFeaturedData(responseAllProducts);
         dispatch(clearSearchData());
       }
     } else {
@@ -221,35 +213,29 @@ const Product = () => {
         newobj[element] =
           testObj[element]?.length == 0 ? undefined : testObj[element];
       }
-      //console.log('newobj', newobj);
       const responseAllProducts = await allProducts(newobj);
-      //console.log('responseAllProducts', responseAllProducts);
-      //console.log('responseAllProducts', responseAllProducts.message);
       if (responseAllProducts.done === true) {
-        setFeaturedData(responseAllProducts.message);
+        setFeaturedData(responseAllProducts);
       }
     }
   };
   useEffect(() => {
     getAllproducts();
   }, []);
+  console.log('featurdData', featurdData);
+  console.log('featurdData.message', featurdData.message);
 
   const responseFilters = async () => {
     const testObj = { ...filter } as Record<string, any>;
     const newobj = {} as Record<string, any>;
     for (const element in testObj as string[]) {
-      //console.log(testObj[element], newobj[element]);
 
       newobj[element] =
         testObj[element]?.length == 0 ? undefined : testObj[element];
     }
-    //console.log('filter', filter);
-    //console.log('newobj', newobj);
     const filtersData = await applyFilters(newobj);
-    //console.log('filtersData', filtersData);
-    //console.log('filtersData', filtersData.message);
     if (filtersData.done === true) {
-      setFeaturedData(filtersData.message);
+      setFeaturedData(filtersData);
     }
   };
   if (falg === true) {
@@ -274,7 +260,7 @@ const Product = () => {
         value={filter.searchText}
         onChange={handleSearch}
       />
-      <Swipe slides={HeroSlider} slidesPerView={6} />
+      <Swipe slides={HeroSlider} slidesPerView={6} condition={true} />
       <Sidebar heading="Filter" buttonlabel="Clear All" onClear={handleClear}>
         <Toggle
           labelLeft="On Sales"
@@ -329,7 +315,7 @@ const Product = () => {
         </RcAccordion>
       </Sidebar>
       <Heading headingName={searchValue || 'vegetables'} />
-      <Pagination productArray={featurdData} />
+      <Pagination productArray={featurdData.message} />
       <Footer />
     </div>
   );

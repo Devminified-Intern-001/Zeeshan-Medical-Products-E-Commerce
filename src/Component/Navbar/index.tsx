@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '../Button';
 import Profile from '../../assets/ProfileIcon';
 import Buy from '../../assets/BuyIcon';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getCartTotal } from '../../redux-slices/card.slice' 
 interface INavbar {
   className?: string;
   logo: string;
@@ -11,6 +16,13 @@ interface INavbar {
 }
 const Navbar = (props: INavbar) => {
   const { className, logo, login, onProfile_SignIn, onBuy_SignUp } = props;
+  const dispatch = useDispatch();
+  const { totalQuantity, getQuantity } = useSelector(
+    (state: any) => state.cart
+  );
+  console.log('totalQuantity', totalQuantity);
+  console.log('getQuantity', getQuantity);
+  useEffect(() => {dispatch(getCartTotal())}, [getQuantity]);
   return (
     <div className={className}>
       <img src={logo} alt="logo" />
@@ -23,11 +35,16 @@ const Navbar = (props: INavbar) => {
             <li>
               <Link to={'/Product'}>Products</Link>
             </li>
-            <li><Link to={'/About'} >About us</Link> </li>
-            <li><Link to={'/profile'} >Contact us</Link></li>
+            <li>
+              <Link to={'/checkout'}>checkout</Link>{' '}
+            </li>
+            <li>
+              <Link to={'/profile'}>Profile</Link>
+            </li>
           </ul>
           {<Profile />}
           {<Buy />}
+          {totalQuantity}
         </>
       ) : (
         <>

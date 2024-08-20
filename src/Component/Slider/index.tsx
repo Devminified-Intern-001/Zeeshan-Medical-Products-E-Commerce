@@ -5,13 +5,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/bundle';
 import '../../MyCSS.css';
-import { useEffect, useState } from 'react';
-import FeaturedData from '../../Module/Home/FeaturedData';
+import { ReactNode, useEffect, useState } from 'react';
+// import FeaturedData from '../../Module/Home/FeaturedData';
 import { API_URL } from '../../config';
 
 type ISwiper = {
   slidesPerView?: number;
   className?: string;
+  classNameSlides?: string;
   slides?: {
     image?: string;
     label?: string;
@@ -19,11 +20,20 @@ type ISwiper = {
   }[];
   productArray?: string[];
   condition?: boolean;
+  children?: ReactNode;
 };
 
 const Swipe = (props: ISwiper) => {
   const [currentImage, setCurrentImage] = useState<string>();
-  const { slides, className, slidesPerView, productArray, condition } = props;
+  const {
+    slides,
+    className,
+    slidesPerView,
+    productArray,
+    condition,
+    classNameSlides,
+    children,
+  } = props;
   const swiperProps = {
     loop: false,
     cssMode: true,
@@ -58,25 +68,27 @@ const Swipe = (props: ISwiper) => {
       setCurrentImage(image);
     }
   };
-  // console.log(currentImage);
+  console.log('slides:::', slides);
 
   return (
     <div className={className}>
-      {condition ? (
+      {children ? (
+        <Swiper {...swiperProps}>
+          <SwiperSlide>{children}</SwiperSlide>
+        </Swiper>
+      ) : condition ? (
         <Swiper {...swiperProps}>
           {slides &&
             slides.map((slide, index) => {
-              // console.log(slide);
-
               return (
                 <SwiperSlide
                   key={index}
                   onClick={() => handleSlideChange(slide.image)}
                 >
                   <img src={slide.image} alt={slide.image} />
-                  <div className="relpostion">
-                    <div>{slide.label}</div>
-                    {slide.description}
+                  <div className={classNameSlides}>
+                    <div>{slide && slide.label}</div>
+                    {slide && slide.description}
                   </div>
                 </SwiperSlide>
               );
@@ -103,7 +115,7 @@ const Swipe = (props: ISwiper) => {
                   >
                     <img
                       src={`${API_URL}/img/${slide}`}
-                      alt={slide}
+                      alt={`${API_URL}/img/${slide}`}
                       style={{ height: 91, width: 110 }}
                     />
                     {/* <div className="relpostion">

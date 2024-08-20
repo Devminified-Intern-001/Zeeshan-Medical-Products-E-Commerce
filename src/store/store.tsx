@@ -1,10 +1,12 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import authReducer from '../redux-slices/global.slice'; // Adjust the path accordingly
 import searchReducer from '../redux-slices/search.slice';
+import CartReduer from '../redux-slices/card.slice'
 const store = configureStore({
   reducer: {
     auth: authReducer,
     searchBox: searchReducer,
+    cart:CartReduer,
     // other reducers...
   },
 });

@@ -3,16 +3,17 @@ import { ReactNode } from "react";
 interface INutrationsFactprops {
   className?: string;
   heading?: string;
-  descriptopn?: string;
   text?: string;
   children?: ReactNode;
+  servingsPerContainer?: number| null
+  servingSize?: string| null
 }
 
 const NutrationsFact = (props:INutrationsFactprops) => {
-    const{className,heading,descriptopn,text,children}=props
+    const{className,heading,text,children,servingsPerContainer,servingSize}=props    
     return <div className={className}>
         <h3>{heading}</h3>
-        {descriptopn}
+        About {servingsPerContainer} servings per container Serving size {servingSize}
         {text}
         {children}
 
