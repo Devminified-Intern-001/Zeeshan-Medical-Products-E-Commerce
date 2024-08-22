@@ -48,6 +48,7 @@ const Login = () => {
 
         cookies.set('accessToken', response.access);
         cookies.set('refreshToken', response.refresh);
+        cookies.set('user', response.userData);
 
         navigate('/Home');
       } else {

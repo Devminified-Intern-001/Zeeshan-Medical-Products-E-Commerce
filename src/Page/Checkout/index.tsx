@@ -4,9 +4,6 @@ import ShopIteam from '../../Module/ShopIteams/ShopIteamNavbar';
 import Logo from '../../assets/Logo.png';
 import '../../MyCSS.css';
 import ShoppingCart from '../../Module/Checkout/ShoppingCart';
-import smallcarrot from '../../assets/smallcarrot.png';
-import smallcabbage from '../../assets/smallcabbage.png';
-import smalltomato from '../../assets/smalltomato.png';
 import Heading from '../../Component/Heading';
 import SortBy from '../../Component/SortBy';
 import Button from '../../Component/Button';
@@ -20,8 +17,7 @@ import Broccoli from '../../assets/broccoli.png';
 import FeaturedData from '../../Module/Home/FeaturedData';
 import Footer from '../../Component/Footer';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+
 const Checkout = () => {
     const RecommandedArray = useSelector((state: any) => state.cart.cart);
   // const RecommandedArray = [
@@ -93,14 +89,9 @@ const Checkout = () => {
     },
   ];
 console.log("RecommandedArray",RecommandedArray);
-const makePayment=async()=>{
-  const stripe = await loadStripe('pk_test_51PoQMIFhX0jtBgg9mzccnDeqhHKazWFadHIpJubg4qJMXufJbBmzFdt5a0suNUo3XHDoqLQaWmzxj1ePj7fFByov00y740ZaWg');
-}
-  
 
-useEffect(()=>{
-  makePayment()
-},[])
+
+
   return (
     <div>
       <Navbar
