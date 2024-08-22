@@ -157,3 +157,18 @@ export const productShopIteam = async (data: {
     return res;
   });
 };
+export const AddToCartApi = async (data: {
+  item?: string;
+  count?: number;
+  cartID?: string | null;
+}): Promise<addToCartApiResponse> => {
+  return await request('/pay/addToCart', {
+    data,
+    method: 'POST',
+  }).then((res: any) => {
+    if (!res || !res.success) {
+      throw new Error(res?.data?.message || '');
+    }
+    return res;
+  });
+};

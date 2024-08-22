@@ -26,6 +26,7 @@ axios.interceptors.response.use(
       if (refreshToken) {
         console.log('Refresh token found. Attempting to refresh tokens...');
 
+       try {
         const response = await axios.post(
           `${baseURL}/refreshToken`,
           { token: refreshToken },
@@ -39,6 +40,12 @@ axios.interceptors.response.use(
 
         config.headers['Authorization'] = `Bearer ${access}`;
        return request(config);
+       } catch (error) {
+        cookies.remove('accessToken');
+        cookies.remove('refreshToken');
+        cookies.remove('user');
+
+       }
       } else {
         console.error('No refresh token available. Please log in again.');
       }

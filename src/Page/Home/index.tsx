@@ -31,8 +31,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSearchText } from '../../redux-slices/search.slice';
-// import { useSelector } from 'react-redux';
-import {addToCart} from '../../redux-slices/card.slice'
+
 const Home = () => {
   const navigate = useNavigate();
   const HeroSlider = [
@@ -101,8 +100,6 @@ const Home = () => {
       description: 'product description is here',
     },
   ];
-//   const searchValue = useSelector((state: any) => state.cart.cart);
-// console.log("searchValue carrt",searchValue);
 
   const dispatch = useDispatch();
 
@@ -163,7 +160,6 @@ const Home = () => {
   useEffect(() => {
     getAllproducts();
   }, []);
-  console.log('featurdData', featurdData);
 
   return (
     <div>
@@ -205,7 +201,6 @@ const Home = () => {
                 price={iteam.price}
                 quantity={iteam.quantity}
                 item={iteam}
-                // addToCart={()=>dispatch(addToCart(iteam))}
               />
             </div>
           );
@@ -225,6 +220,7 @@ const Home = () => {
                 image={iteam.defaultImage}
                 price={iteam.price}
                 quantity={iteam.quantity}
+                item={iteam}
               />
             </div>
           );
@@ -251,7 +247,7 @@ const Home = () => {
                 image={iteam.defaultImage}
                 price={iteam.price}
                 quantity={iteam.quantity}
-                // addToCart={}
+                item={iteam}
               />
             </div>
           );

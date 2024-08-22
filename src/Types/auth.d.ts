@@ -74,7 +74,7 @@ interface reviewsMessage {
   rating: number;
   reviewText: string;
   reviewDate: string;
-  userImage:string;
+  userImage: string;
 }
 
 interface productShopItemMessage {
@@ -101,5 +101,11 @@ interface productShopItemMessage {
 interface productShopItem {
   done: boolean;
   message: productShopItemMessage;
+  error: string | null;
+}
+
+interface addToCartApiResponse {
+  done: boolean;
+  message: string | undefined;
   error: string | null;
 }

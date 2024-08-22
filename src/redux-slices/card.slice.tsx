@@ -13,14 +13,14 @@ export interface CartItem {
 
 export interface CartState {
   cart: CartItem[];
-  getQuantity:number;
+  getQuantity: number;
   totalPrice?: number;
   totalQuantity?: number;
 }
 
 const initialState: CartState = {
   cart: [],
-  getQuantity:0,
+  getQuantity: 0,
   totalPrice: 0,
   totalQuantity: 0,
 };
@@ -29,33 +29,41 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<{ cart: CartItem; getQuantity: number }>) => {
-      console.log("action.payload",action.payload.cart);
-      
-      const find = state.cart.findIndex(item => item.title === action.payload.cart.title);
-      console.log("find",find);
-      
-      if (find >= 0) {
-        state.cart[find].quantity=action.payload.getQuantity
-        console.log("state.cart[find].quantity",state.cart[find].quantity);
-        const actualQuanity=action.payload.getQuantity-state.getQuantity
-        state.getQuantity+=actualQuanity
+    addToCart: (
+      state,
+      action: PayloadAction<{
+        cart: CartItem;
+        getQuantity: number;
+      }>
+    ) => {
+      console.log('action.payload.cart', action.payload.cart);
+      console.log('action.payload.getQuantity', action.payload.getQuantity);
 
+      const find = state.cart.findIndex(
+        (item) => item.title === action.payload.cart.title
+      );
+      console.log('find', find);
+
+      if (find >= 0) {
+        state.cart[find].quantity = action.payload.getQuantity;
+        const actualQuanity = action.payload.getQuantity - state.getQuantity;
+        state.getQuantity += actualQuanity;
       } else {
-        action.payload.cart.quantity=action.payload.getQuantity
-        console.log("action.payload.cart.quantity",action.payload.cart.quantity);
-        
+        action.payload.cart.quantity = action.payload.getQuantity;
         state.cart.push(action.payload.cart);
-        console.log("action.payload.cart",action.payload.cart);
-        
-        state.getQuantity=action.payload.getQuantity
+        state.getQuantity = action.payload.getQuantity;
       }
     },
     deleteFromCart: (state, action: PayloadAction<string>) => {
-      state.cart = state.cart.filter(item => item.title !== action.payload);
+      state.cart = state.cart.filter((item) => item.title !== action.payload);
     },
-    updateQuantity: (state, action: PayloadAction<{ title: string; quantity: number }>) => {
-      const find = state.cart.findIndex(item => item.title === action.payload.title);
+    updateQuantity: (
+      state,
+      action: PayloadAction<{ title: string; quantity: number }>
+    ) => {
+      const find = state.cart.findIndex(
+        (item) => item.title === action.payload.title
+      );
       if (find >= 0) {
         state.cart[find].quantity = action.payload.quantity;
       }
@@ -63,16 +71,16 @@ const cartSlice = createSlice({
     getCartTotal: (state) => {
       const { totalQuantity, totalPrice } = state.cart.reduce(
         (cartTotal, cartItem) => {
-          console.log("cartItem",cartItem);
-          console.log("cartTotal",cartTotal);
-          
+          console.log('cartItem', cartItem);
+          console.log('cartTotal', cartTotal);
+
           const { price, quantity } = cartItem;
-          console.log("price",price);
-          console.log("quantity",quantity);
-          
+          console.log('price', price);
+          console.log('quantity', quantity);
+
           const itemTotal = price * quantity;
-          console.log("itemTotal",itemTotal);
-          
+          console.log('itemTotal', itemTotal);
+
           cartTotal.totalPrice += itemTotal;
           cartTotal.totalQuantity += quantity;
           return cartTotal;
@@ -104,11 +112,18 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart,deleteFromCart,updateQuantity,getCartTotal, increaseItemQuantity } = cartSlice.actions;
+export const {
+  addToCart,
+  deleteFromCart,
+  updateQuantity,
+  getCartTotal,
+  increaseItemQuantity,
+} = cartSlice.actions;
 export default cartSlice.reducer;
 
 // Selector example
-import { RootState} from '../store/store';
+import { RootState } from '../store/store';
 export const selectCartItems = (state: RootState) => state.cart.cart;
 export const selectCartTotalPrice = (state: RootState) => state.cart.totalPrice;
-export const selectCartTotalQuantity = (state: RootState) => state.cart.totalQuantity;
+export const selectCartTotalQuantity = (state: RootState) =>
+  state.cart.totalQuantity;

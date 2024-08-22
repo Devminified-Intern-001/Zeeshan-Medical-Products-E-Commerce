@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import Button from '../../../Component/Button';
 import { API_URL } from '../../../config';
 import { Link } from 'react-router-dom';
 import Swipe from '../../../Component/Slider';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux-slices/card.slice';
+import { AddToCartApi } from '../../../api/auth';
 interface Iprops {
   className?: string;
   productName: string;
@@ -27,8 +28,8 @@ interface Iprops {
 }
 
 const FeaturedData = (props: Iprops) => {
+  const [id,setId]=useState(undefined)
   const { productName, image, price, quantity, conditon, item } = props;
-
 
   const dispatch = useDispatch();
   const [counter, setCounter] = useState(1);
@@ -46,7 +47,12 @@ const FeaturedData = (props: Iprops) => {
       setCounter(counter - 1);
     }
   };
-
+  const addToCardApiFc = async () => {
+    const response = await AddToCartApi({ item: item.title, count: counter, cartID:id });
+    console.log("response.message",response.message);
+    setId(response.message)
+    dispatch(addToCart({ cart: item, getQuantity: counter}));
+  };
   return (
     <div className="featured">
       {conditon ? (
@@ -67,13 +73,7 @@ const FeaturedData = (props: Iprops) => {
           {counter}
           <Button onClick={increment}>+</Button>
           <div>
-            <Button
-              onClick={() =>
-                dispatch(addToCart({ cart: item, getQuantity: counter }))
-              }
-            >
-              Add to cart
-            </Button>
+            <Button onClick={() => addToCardApiFc()}>Add to cart</Button>
           </div>
         </div>
       )}

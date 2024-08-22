@@ -4,6 +4,7 @@ import DeleteIcon from '../../../assets/Delete'
 import { API_URL } from '../../../config';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux-slices/card.slice';
+import { AddToCartApi } from '../../../api/auth';
 interface IShoppingCartProps {
   className?: string;
   productImage?: string;
@@ -27,16 +28,20 @@ const ShoppingCart = (props: IShoppingCartProps) => {
   const [counter, setCounter] = useState(quantity);
   const dispatch = useDispatch();
   const [pric, setrpic] = useState(counter*item.price);
-  const increment = () => {
+  const increment = async() => {
     setrpic(pric + item.price);
     setCounter(counter + 1);
     dispatch(addToCart({ cart: item, getQuantity: counter+1 }))
+    const response = await AddToCartApi({ item: item.title, count: counter });
+    console.log('response', response);
   };
-  const decrement = () => {
+  const decrement = async() => {
     if (counter > 1) {
       setrpic(pric - item.price);
       setCounter(counter - 1);
-      dispatch(addToCart({ cart: item, getQuantity: counter-1 }))
+      const response = await AddToCartApi({ item: item.title, count: counter });
+      console.log('response', response);
+      dispatch(addToCart({ cart: item, getQuantity: counter-1, cartId: response.message}))
     }
   };
   console.log("item.price",item.price);
