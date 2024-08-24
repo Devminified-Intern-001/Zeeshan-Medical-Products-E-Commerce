@@ -103,9 +103,12 @@ interface productShopItem {
   message: productShopItemMessage;
   error: string | null;
 }
-
+interface addToCartApiResponseMessage {
+  cartID: string| undefined;
+  overflow: boolean;
+}
 interface addToCartApiResponse {
   done: boolean;
-  message: string | undefined;
+  message: addToCartApiResponseMessage;
   error: string | null;
 }

@@ -28,7 +28,10 @@ interface Iprops {
 }
 
 const FeaturedData = (props: Iprops) => {
-  const [id,setId]=useState(undefined)
+  const [id,setId]=useState<addToCartApiResponseMessage>({
+    cartID: undefined  ,
+    overflow:false,
+  })
   const { productName, image, price, quantity, conditon, item } = props;
 
   const dispatch = useDispatch();
@@ -48,8 +51,8 @@ const FeaturedData = (props: Iprops) => {
     }
   };
   const addToCardApiFc = async () => {
-    const response = await AddToCartApi({ item: item.title, count: counter, cartID:id });
-    console.log("response.message",response.message);
+    const response = await AddToCartApi({ item: item.title, count: counter, cartID:id.cartID });
+    console.log("response",response);
     setId(response.message)
     dispatch(addToCart({ cart: item, getQuantity: counter}));
   };
