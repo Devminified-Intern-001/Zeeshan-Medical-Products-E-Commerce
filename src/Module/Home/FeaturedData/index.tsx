@@ -17,19 +17,19 @@ interface Iprops {
   item: {
     title: string;
     price: number;
-    images: string[];
-    defaultImage: string;
+    images?: string[];
+    defaultImage: string | null;
     quantity: number;
-    description: string;
-    unit: string;
-    shortTitle: string;
+    description?: string;
+    unit?: string;
+    shortTitle?: string;
   };
   // addToCart?:any
 }
 
 const FeaturedData = (props: Iprops) => {
   const [id,setId]=useState<addToCartApiResponseMessage>({
-    cartID: undefined  ,
+    cartID: undefined,
     overflow:false,
   })
   const { productName, image, price, quantity, conditon, item } = props;
@@ -51,6 +51,7 @@ const FeaturedData = (props: Iprops) => {
     }
   };
   const addToCardApiFc = async () => {
+    console.log(item);
     const response = await AddToCartApi({ item: item.title, count: counter, cartID:id.cartID });
     console.log("response",response);
     setId(response.message)

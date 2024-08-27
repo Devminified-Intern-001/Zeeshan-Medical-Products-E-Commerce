@@ -204,7 +204,7 @@ const ShopItem = () => {
                 image={iteam.defaultImage}
                 price={iteam.price}
                 quantity={iteam.quantity}
-              />
+                item={{...iteam, images: [""]}}           />
             </div>
           );
         })}

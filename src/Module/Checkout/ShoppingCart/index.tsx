@@ -31,7 +31,9 @@ const ShoppingCart = (props: IShoppingCartProps) => {
   const increment = async() => {
     setrpic(pric + item.price);
     setCounter(counter + 1);
-    dispatch(addToCart({ cart: item, getQuantity: counter+1 }))
+    console.log(`Item: ${item}`);
+    dispatch(addToCart({ cart: item, getQuantity: counter + 1 }))
+    
     const response = await AddToCartApi({ item: item.title, count: counter });
     console.log('response', response);
   };
@@ -41,7 +43,7 @@ const ShoppingCart = (props: IShoppingCartProps) => {
       setCounter(counter - 1);
       const response = await AddToCartApi({ item: item.title, count: counter });
       console.log('response', response);
-      dispatch(addToCart({ cart: item, getQuantity: counter-1, cartId: response.message}))
+      dispatch(addToCart({ cart: item, getQuantity: counter-1, cartId: response.message.cartID}))
     }
   };
   console.log("item.price",item.price);

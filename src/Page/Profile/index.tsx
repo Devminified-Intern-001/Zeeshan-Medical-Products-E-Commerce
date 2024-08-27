@@ -18,7 +18,7 @@ const Profile = () => {
     // userName: '',
     // email: '',
     gender: '',
-    dateOfBirth: null,
+    dateOfBirth: new Date(0),
     nic: '',
     mobile: '',
    
@@ -48,12 +48,13 @@ const Profile = () => {
     }));
   };
   const [updateImage, setUpadteImage] = useState('');
-  const imageref = useRef(null);
+  const imageref = useRef<HTMLElement>(null);
   const handleimage = (e: any) => {
     setUpadteImage(e.target.files[0]);
   };
   const handleimageclick = () => {
-    imageref.current.click();
+    if (!imageref.current) return
+    imageref.current.click()
   };
   const getProfile = async () => {
     try {

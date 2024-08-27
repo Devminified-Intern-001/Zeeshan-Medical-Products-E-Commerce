@@ -16,7 +16,7 @@ axios.interceptors.response.use(
   (response) => response,
   async (error = {}) => {
     const { status, config } = error.response || {};
-    const { url } = config || {};
+    //const { url } = config || {};
     if (status === 401) {
       console.log(
         'Access token expired or unauthorized. Attempting to refresh...'
