@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import { PaymentElement, LinkAuthenticationElement } from '@stripe/react-stripe-js';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import { StripePaymentElementOptions } from '@stripe/stripe-js';
+import { API_URL } from '../../config';
 
 interface CheckoutFormProps {
   clientSecret: string;
@@ -48,7 +50,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ clientSecret }) => {
   const handleApi = async () => {
     try {
       const response = await axios.post(
-        'https://medical-e-commerce-backend.vercel.app/pay/finalize',
+        `${API_URL}/pay/finalize`,
         {
           capture: true,
           clientSecret: clientSecret,
@@ -66,12 +68,32 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ clientSecret }) => {
     }
   };
 
+  const options : StripePaymentElementOptions = {
+    defaultValues : {
+      billingDetails: {
+        email: "saadullahmughal4@gmail.com",
+        address: {
+          country: "PK"
+        }
+      }
+    },
+    fields: {
+      billingDetails: {
+        name: "never",
+        email: "never",
+        address: {
+          country: "never"
+        }
+      }
+    }
+  }
+
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement
         id="link-authentication-element"
       />
-      <PaymentElement id="payment-element" />
+      <PaymentElement id="payment-element" options={options} />
       <table>
         <tbody>
           <tr>

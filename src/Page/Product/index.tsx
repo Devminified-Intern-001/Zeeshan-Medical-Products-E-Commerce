@@ -88,8 +88,8 @@ const Product = () => {
       newArrivals: false,
       minPrice: 0,
       maxPrice: 150,
-      dietNeeds: [],
-      allergenFilters: [],
+      dietNeeds: undefined,
+      allergenFilters: undefined,
     });
     setFlag(true);
   };
@@ -101,8 +101,8 @@ const Product = () => {
     newArrivals: false,
     minPrice: 0,
     maxPrice: 150,
-    dietNeeds: [],
-    allergenFilters: [],
+    dietNeeds: undefined as [string] | undefined,
+    allergenFilters: undefined as [string] | undefined,
   });
   const handleChange = (newValue: any) => {
     const [minValue, maxValue] = newValue;
@@ -113,7 +113,7 @@ const Product = () => {
     }));
     setFlag(true);
   };
-  const onToggle = (event: any) => {
+  const onToggle = (event?: any) => {
     const { name, checked } = event.target;
     //console.log('checked', checked);
     setFilter((prevData) => ({
@@ -290,7 +290,7 @@ const Product = () => {
                     rightLabel={item}
                     name={item}
                     type="checkbox"
-                    checked={filter.dietNeeds.includes(item)}
+                    checked={filter.dietNeeds && filter.dietNeeds.includes(item)}
                     onChange={onChangeDietNeeds}
                   />
                 </div>
@@ -306,7 +306,7 @@ const Product = () => {
                     rightLabel={item}
                     name={item}
                     type="checkbox"
-                    checked={filter.allergenFilters.includes(item)}
+                    checked={filter.allergenFilters && filter.allergenFilters.includes(item)}
                     onChange={onChangeAllergenFilters}
                   />
                 </div>

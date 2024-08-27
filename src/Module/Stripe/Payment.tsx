@@ -3,6 +3,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { Stripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm.tsx';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 interface PaymentProps {
   stripePromise: Promise<Stripe | null>;
@@ -15,7 +16,7 @@ const Payment: React.FC<PaymentProps> = ({ stripePromise }) => {
     const getClientSecret = async () => {
       try {
         // Create PaymentIntent as soon as the page loads
-        const response = await axios.get('https://medical-e-commerce-backend.vercel.app/pay/getClientSecret?cartID=66c6e9344243e1d2f82f25f4', {
+        const response = await axios.get(`${API_URL}/pay/getClientSecret?cartID=66c6e9344243e1d2f82f25f4`, {
           headers: {
             Authorization:
               'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlNhYWR1bGxhaCIsImVtYWlsIjoic2FhZHVsbGFobXVnaGFsNEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1MTYyMzkwMjJ9.hWgvQwF89BHjClnzNkUpsVaWrycTiDk1HgdHnDqDs64',
@@ -30,6 +31,7 @@ const Payment: React.FC<PaymentProps> = ({ stripePromise }) => {
 
     getClientSecret();
   }, []);
+
 
   return (
     <>

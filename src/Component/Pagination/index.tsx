@@ -5,10 +5,14 @@ import '../../MyCSS.css';
 interface IPaginationProps {
   className?: string;
   productArray: {
-    title?: string;
-    price?: number;
+    title: string;
+    price: number;
     quantity:number;
-    defaultImage?:string;
+    defaultImage: string | null;
+    images?: string[];
+    description?: string;
+    unit?: string;
+    shortTitle?: string;
   }[];
 }
 const Pagination = (props: IPaginationProps) => {
@@ -37,11 +41,11 @@ console.log("productArray",productArray);
           return (
             <div key={index}>
               <FeaturedData
-                productName={iteam.title}
-                image={iteam.defaultImage}
-                price={iteam.price}
+                productName={iteam.title || ""}
+                image={iteam.defaultImage || ""}
+                price={iteam.price || 0}
                 quantity={iteam.quantity}
-              />
+                item={iteam}              />
             </div>
           );
         })}

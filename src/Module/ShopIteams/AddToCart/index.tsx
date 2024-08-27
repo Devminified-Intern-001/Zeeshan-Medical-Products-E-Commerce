@@ -27,7 +27,7 @@ const AddToCart = (props: Iprops) => {
   const [counter, setCounter] = useState(1);
   // const [pric, setrpic] = useState(price);
   const increment = () => {
-    if (quantity > counter) {
+    if (quantity && quantity > counter) {
       console.log('quantity >= counter', quantity >= counter);
       // setrpic(pric + price);
       setCounter(counter + 1);

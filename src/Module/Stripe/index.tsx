@@ -1,4 +1,5 @@
 
+import { API_URL } from '../../config';
 import Payment from './Payment.tsx';
 
 
@@ -18,7 +19,7 @@ function StripePayment() {
     const fetchStripeConfig = async () => {
       try {
         const response = await axios.get<{ PUBLISH_KEY: string }>(
-          'https://medical-e-commerce-backend.vercel.app/pay/config',
+          `${API_URL}/pay/config`,
           {
             headers: {
               Authorization:

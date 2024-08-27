@@ -29,7 +29,7 @@ const ProfilePhoto = (props: IProfilePhotoProps) => {
     <div className={className}>
       {image && (
         <img
-          src={URL.createObjectURL(image)}
+          src={image}
           style={{ width: '100px', height: '100px' }}
         />
       )}
